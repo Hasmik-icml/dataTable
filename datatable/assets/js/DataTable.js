@@ -10,23 +10,16 @@ class DataTable {
         const $dataTableContainer = document.querySelector('.data-table-container');
         $dataTableContainer.appendChild($table)
 
-        $table.appendChild(this.createThead());
-        const $tbody = this.createTbody();
-        $table.appendChild($tbody);
-
-        const $trs = this.renderData();
-
-        $trs.forEach(item => {
-            $tbody.appendChild(item);
-        })
-
-
+        this.createThead();
+        this.createTbody();
+        this.renderData();
+        this.createTfooter();
     }
 
     createThead(){
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-
+        
         this.columns.forEach((column)=>{
             const $th = document.createElement('th');
             $th.innerHTML = column;
@@ -35,18 +28,17 @@ class DataTable {
 
         $thead.appendChild($tr);
 
-        return $thead;
+        this.$table.appendChild($thead);
     }
-
 
     createTbody(){
         const $tbody = document.createElement('tbody');
-        
-        return $tbody;
+        this.$tbody = $tbody;
+        this.$table.appendChild($tbody);
     }
 
     renderData(){
-       return this.data.map((item) => {
+        this.data.map((item) => {
             const $tr = document.createElement('tr');
 
             for (const key in item){
@@ -55,8 +47,29 @@ class DataTable {
                 $tr.appendChild($td);
             }
 
+            this.$tbody.appendChild($tr);
             return $tr;
         })
+    }
+
+    createTfooter(){
+        const $tfooter = document.createElement('tr');
+
+        this.data.forEach(item => {
+            const $td = document.createElement('td');
+           
+            const attr = document.createAttribute("colspan").value = '3';
+            $td.setAttributeNode(attr);
+
+            const $btn = document.createElement('button');
+            $btn.innerHTML = item.id;
+
+            // $td.appendChild($btn);
+
+            $tfooter.appendChild($btn);
+            // $tfooter.appendChild($btn)
+        })
+        this.$table.appendChild($tfooter);
     }
 }
 export default DataTable; 
