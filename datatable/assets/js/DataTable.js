@@ -10,7 +10,7 @@ class DataTable {
         const $table = document.createElement('table');
         this.$table = $table;
         const $dataTableContainer = document.querySelector('.data-table-container');
-        $dataTableContainer.appendChild($table)
+        $dataTableContainer.appendChild($table);
 
         this.createThead();
         this.createTbody();
@@ -25,7 +25,7 @@ class DataTable {
         this.columns.forEach((column)=>{
             const $th = document.createElement('th');
             $th.innerHTML = column;
-            $tr.appendChild($th)
+            $tr.appendChild($th);
         });
 
         $thead.appendChild($tr);
