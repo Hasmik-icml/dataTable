@@ -5,7 +5,6 @@ class DataTable {
     }
 
     createTable(){     
-
         const $table = document.createElement('table');
         this.$table = $table;
 
@@ -46,8 +45,6 @@ class DataTable {
     }
 
     renderData(dataCount, rData){
-    console.log(dataCount, rData);
-
         for (let i = 0; i < dataCount; i++){
             const $tr = document.createElement('tr');
 
@@ -59,7 +56,6 @@ class DataTable {
 
             this.$tbody.appendChild($tr);
         }
-
     }
 
     createTfooter(){
@@ -74,10 +70,8 @@ class DataTable {
 
         let pegesCount = Math.ceil(this.data.length / this.dataCount);
 
-        for (let btnCount = 1; btnCount <= pegesCount; btnCount++) {
-            
+        for (let btnCount = 1; btnCount <= pegesCount; btnCount++) {       
             const $btn = document.createElement('button');
-          
 
             $btn.addEventListener('click', ()=>{
                 this.$tbody.innerHTML = '';
@@ -112,17 +106,26 @@ class DataTable {
             $opt.value = val * 5;
             $opt.innerHTML = val * 5;
         }
-        
        
         $container.appendChild($perPage);
 
         $perPage.addEventListener('change', (e) => {
             this.dataCount = e.target.value;
+            console.log(this.dataCount, this.forRender);
+            this.$tbody.innerHTML = '';
+
+            let pageNumber = 1;
+            let start = (pageNumber - 1) * this.dataCount;
+            let end = start + this.dataCount;
+            let forRender = this.data.slice(start, end);
+
+            this.forRender = forRender;
+
             this.$tfooter.remove();
-            this.renderData(this.dataCount, this.forRender);
             this.createTfooter();
-            console.log(this.dataCount);
+            this.renderData(this.dataCount, this.forRender);
         });
     }
 }
+
 export default DataTable; 
