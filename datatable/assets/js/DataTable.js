@@ -4,19 +4,25 @@ class DataTable {
         this.data = data;
     }
 
-    createTable(){
-        const dataCount = 3;
-        this.dataCount = dataCount;
+    createTable(){     
+
         const $table = document.createElement('table');
         this.$table = $table;
+
         const $dataTableContainer = document.querySelector('.data-table-container');
         $dataTableContainer.appendChild($table);
 
         this.createThead();
         this.createTbody();
-        this.renderData(dataCount, this.data);
-        this.createTfooter();   
         this.createSelect();
+        
+        const $select = document.querySelector('.selectDataCount');
+        const dataCount = $select.value;
+        this.dataCount = dataCount;
+        console.log(this.dataCount);
+
+        this.renderData(this.dataCount, this.data);
+        this.createTfooter();   
     }
 
     createThead(){
@@ -40,25 +46,25 @@ class DataTable {
     }
 
     renderData(dataCount, rData){
- 
-        if (!rData) rData = this.data;
-        rData.every((item, index) => {
-            if(index === dataCount) return;
+    console.log(dataCount, rData);
+
+        for (let i = 0; i < dataCount; i++){
             const $tr = document.createElement('tr');
 
-            for (const key in item){
+            for (const key in rData[i]){
                 const $td = document.createElement('td');
-                $td.innerHTML = item[key];
+                $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
             }
 
             this.$tbody.appendChild($tr);
-            return $tr;
-        });
+        }
+
     }
 
     createTfooter(){
         const $tfooter = document.createElement('tr');
+        $tfooter.classList.add('btnList');
         this.$tfooter = $tfooter;
         const $td = document.createElement('td');
 
@@ -71,10 +77,11 @@ class DataTable {
         for (let btnCount = 1; btnCount <= pegesCount; btnCount++) {
             
             const $btn = document.createElement('button');
+          
 
             $btn.addEventListener('click', ()=>{
                 this.$tbody.innerHTML = '';
-
+                
                 let pageNumber = $btn.innerText;
                 let start = (pageNumber - 1) * this.dataCount;
                 let end = start + this.dataCount;
@@ -82,8 +89,7 @@ class DataTable {
 
                 this.forRender = forRender;
                 this.renderData(this.dataCount, forRender);
-            });
-            
+            }); 
             
             $td.appendChild($btn);
             $btn.innerHTML = btnCount;
@@ -95,18 +101,19 @@ class DataTable {
     }
 
     createSelect() {
-
         const $container = document.querySelector('.data-table-container');
         const $perPage = document.createElement('select');
-
+        $perPage.classList.add("selectDataCount");
+        
         for (let val = 1; val <= 5; val++) {
             const $opt = document.createElement('option');
-
+            
             $perPage.appendChild($opt);
             $opt.value = val * 5;
             $opt.innerHTML = val * 5;
         }
-
+        
+       
         $container.appendChild($perPage);
 
         $perPage.addEventListener('change', (e) => {
