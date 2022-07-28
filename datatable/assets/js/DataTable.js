@@ -77,18 +77,12 @@ class DataTable {
                 this.$tbody.innerHTML = '';
                 
                 let pageNumber = $btn.innerText;
-                let start = (pageNumber - 1) * this.dataCount;
-                let end = start + this.dataCount;
-                let forRender = this.data.slice(start, end);
-
-                this.forRender = forRender;
-                this.renderData(this.dataCount, forRender);
+                this.pagination(pageNumber);
             }); 
             
             $td.appendChild($btn);
             $btn.innerHTML = btnCount;
             $tfooter.appendChild($td);
-
         }
 
         this.$table.appendChild($tfooter);
@@ -115,16 +109,19 @@ class DataTable {
             this.$tbody.innerHTML = '';
 
             let pageNumber = 1;
-            let start = (pageNumber - 1) * this.dataCount;
-            let end = start + this.dataCount;
-            let forRender = this.data.slice(start, end);
-
-            this.forRender = forRender;
-
             this.$tfooter.remove();
             this.createTfooter();
-            this.renderData(this.dataCount, this.forRender);
+            this.pagination(pageNumber);
         });
+    }
+
+    pagination(pageNumber) {
+        console.log(pageNumber);
+        let start = (pageNumber - 1) * this.dataCount;
+        let end = start + this.dataCount;
+        let forRender = this.data.slice(start, end);
+        this.forRender = forRender;
+        this.renderData(this.dataCount, this.forRender);
     }
 }
 
