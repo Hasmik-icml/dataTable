@@ -1,5 +1,15 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
 table, tr, td, th {
     border: solid 1px #000000;
+    color: darkcyan;
+}
+
+th {
+    font-size: 40px;
 }
 
 table {
@@ -8,4 +18,22 @@ table {
 
 th, td {
     padding: 8px;
+}
+
+.btnList {
+    text-align: center;
+}
+
+button {
+    border: none;
+    color: white;
+    background-color: cadetblue;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+select {
+    border: none;
+    background-color: darkcyan;
+    color: white;
 }
