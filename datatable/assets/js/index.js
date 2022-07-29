@@ -6,141 +6,141 @@ const data = [
     {
         id:1,
         name: 'Albert',
-        age: 50,
+        age: 27,
     },
     {
         id:2,
         name: 'Gevorg',
-        age: 51,
+        age: 27,
     },
     {
         id:3,
         name: 'Jor',
-        age: 51,
+        age: 27,
     },
     {
         id:4,
         name: 'Anahit',
-        age: 51,
+        age: 17,
     },
     {
         id:5,
         name: 'Arusyak',
-        age: 51,
+        age: 34,
     },
     {
         id:6,
         name: 'Zara',
-        age: 51,
+        age: 14,
     },
     {
         id:7,
         name: 'Anna',
-        age: 51,
+        age: 11,
     },
     {
         id:8,
         name: 'Hasmik',
-        age: 51,
+        age: 39,
     },
     {
         id: 9,
         name: 'Albert',
-        age: 50,
+        age: 28,
     }, {
         id: 10,
         name: 'Gevorg',
-        age: 51,
+        age: 25,
     }, {
         id: 11,
         name: 'Jor',
-        age: 51,
+        age: 35,
     }, {
         id: 12,
         name: 'Anahit',
-        age: 51,
+        age: 32,
     }, {
         id: 13,
         name: 'Arusyak',
-        age: 51,
+        age: 20,
     }, {
         id: 14,
         name: 'Zara',
-        age: 51,
+        age: 18,
     }, {
         id: 15,
         name: 'Anna',
-        age: 51,
+        age: 19,
     }, {
         id: 16,
         name: 'Hasmik',
-        age: 51,
+        age: 18,
     },
     {
         id: 17,
         name: 'Albert',
-        age: 50,
+        age: 25,
     }, {
         id: 18,
         name: 'Gevorg',
-        age: 51,
+        age: 22,
     }, {
         id: 19,
         name: 'Jor',
-        age: 51,
+        age: 24,
     }, {
         id: 20,
         name: 'Anahit',
-        age: 51,
+        age: 23,
     }, {
         id: 21,
         name: 'Arusyak',
-        age: 51,
+        age: 31,
     }, {
         id: 22,
         name: 'Zara',
-        age: 51,
+        age: 37,
     }, {
         id: 23,
         name: 'Anna',
-        age: 51,
+        age: 36,
     }, {
         id: 24,
         name: 'Hasmik',
-        age: 51,
+        age: 21,
     },
     {
         id: 25,
         name: 'Albert',
-        age: 50,
+        age: 26,
     }, {
         id: 26,
         name: 'Gevorg',
-        age: 51,
+        age: 29,
     }, {
         id: 27,
         name: 'Jor',
-        age: 51,
+        age: 16,
     }, {
         id: 28,
         name: 'Anahit',
-        age: 51,
+        age: 28,
     }, {
         id: 29,
         name: 'Arusyak',
-        age: 51,
+        age: 24,
     }, {
         id: 30,
         name: 'Zara',
-        age: 51,
+        age: 32,
     }, {
         id: 31,
         name: 'Anna',
-        age: 51,
+        age: 20,
     }, {
         id: 32,
         name: 'Hasmik',
-        age: 51,
+        age: 23,
     }
 ];
 

@@ -29,7 +29,6 @@ class DataTable {
         this.createThead();
         this.createTbody();
         this.createSelect();
-        
         this.renderData(this.dataCount, this.data);
         this.createTfooter();   
     }
@@ -41,18 +40,75 @@ class DataTable {
         
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
-            $th.innerHTML = column + " ↑↓";
+            $th.innerHTML = column + " ↓";
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
-                const columnName = e.target.innerText.split(' ')[0];
-                console.log(columnName);
+                let columnName = e.target.innerText.split(' ')[0];
+                let sortMethod = e.target.innerHTML.split(' ')[1];
 
-                const sortedData = this.data.map((item) => {
-                    return item
-                });
+                if (sortMethod === '↓') {
 
-                console.log(sortedData);
+                    sortMethod = ' ↑';
+                    $th.innerHTML = column + sortMethod;
+
+                    if (columnName === 'id') {
+
+                        this.data = this.data.sort((dataA, dataB) => dataA.id - dataB.id);
+
+                    } else if (columnName === 'name') {
+
+                        this.data = this.data.sort((dataA, dataB) => 
+                        {
+                            let a = dataA.name.toLowerCase();
+                            let b = dataB.name.toLowerCase();
+
+                            if (a < b) return -1;
+                            
+                            if (a > b) return 1;
+
+                            return 0;
+                        })
+
+                    } else if (columnName === 'age') {
+
+                        this.data = this.data.sort((dataA, dataB) => dataA.age - dataB.age);
+
+                    }
+                   
+                } else if (sortMethod === '↑'){
+
+                    sortMethod = ' ↓';
+                    $th.innerHTML = column + sortMethod;
+                    
+                    if (columnName === 'id') {
+
+                        this.data = this.data.sort((dataA, dataB) => dataB.id - dataA.id);
+
+                    } else if (columnName === 'name') {
+
+                        this.data = this.data.sort((dataA, dataB) => 
+                        {
+                            let a = dataA.name.toLowerCase();
+                            let b = dataB.name.toLowerCase();
+
+                            if (b < a) return -1;
+                            
+                            if (b > a) return 1;
+
+                            return 0;
+                        })
+
+                    } else if (columnName === 'age') {
+
+                        this.data = this.data.sort((dataA, dataB) => dataB.age - dataA.age);
+
+                    }
+
+                } 
+
+                this.$tbody.innerHTML = '';
+                this.renderData(this.dataCount, this.data);
             });
         });
 
@@ -117,7 +173,8 @@ class DataTable {
         const $perPage = document.createElement('select');
         $perPage.classList.add("selectDataCount");
         
-        for (let val = 1; val <= 5; val++) {
+        for (let val = 1; val <= 5; val++) 
+        {
             const $opt = document.createElement('option');
             
             $perPage.appendChild($opt);
@@ -129,9 +186,6 @@ class DataTable {
 
         $perPage.addEventListener('change', (e) => {
             this.dataCount = e.target.value;
-            
-            console.log(this.dataCount, this.forRender);
-
             this.$tbody.innerHTML = '';
 
             let pageNumber = 1;
@@ -141,8 +195,6 @@ class DataTable {
         });
     }
 
-
-
     pagination(pageNumber) {
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
@@ -150,8 +202,6 @@ class DataTable {
         this.forRender = forRender;
         this.renderData(this.dataCount, this.forRender);
     }
-
-
 }
 
 export default DataTable; 
