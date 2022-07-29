@@ -50,9 +50,8 @@ class DataTable {
 
                 const sortedData = this.data.map((item) => {
                     return item
+                    
                 });
-
-                console.log(sortedData);
             });
         });
 

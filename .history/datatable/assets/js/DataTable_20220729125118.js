@@ -48,11 +48,9 @@ class DataTable {
                 const columnName = e.target.innerText.split(' ')[0];
                 console.log(columnName);
 
-                const sortedData = this.data.map((item) => {
-                    return item
-                });
+                constthis.data.map((item) => {
 
-                console.log(sortedData);
+                });
             });
         });
 

@@ -41,18 +41,12 @@ class DataTable {
         
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
-            $th.innerHTML = column + " ↑↓";
+            $th.innerHTML = column + "↑↓";
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
-                const columnName = e.target.innerText.split(' ')[0];
+                const columnName = e.target.innerText;
                 console.log(columnName);
-
-                const sortedData = this.data.map((item) => {
-                    return item
-                });
-
-                console.log(sortedData);
             });
         });
 

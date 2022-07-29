@@ -45,14 +45,8 @@ class DataTable {
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
-                const columnName = e.target.innerText.split(' ')[0];
+                const columnName = e.target.innerText.spli;
                 console.log(columnName);
-
-                const sortedData = this.data.map((item) => {
-                    return item
-                });
-
-                console.log(sortedData);
             });
         });
 

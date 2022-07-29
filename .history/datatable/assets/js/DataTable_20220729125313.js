@@ -49,7 +49,7 @@ class DataTable {
                 console.log(columnName);
 
                 const sortedData = this.data.map((item) => {
-                    return item
+                    return item.sort((a, b) => item.a - item.b);
                 });
 
                 console.log(sortedData);
