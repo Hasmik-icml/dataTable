@@ -18,7 +18,7 @@ class DataTable {
         this.$dataTableContainer = $dataTableContainer;
 
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
+        $tr.classList.add(this.rowClassName);
         this.$table = $table;
 
         $dataTableContainer.appendChild($table);

@@ -18,7 +18,7 @@ class DataTable {
         this.$dataTableContainer = $dataTableContainer;
 
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
+        $table.classList.add = tableClassName;
         this.$table = $table;
 
         $dataTableContainer.appendChild($table);
@@ -34,7 +34,7 @@ class DataTable {
     createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-        $tr.classList.add(this.rowClassName);
+        $tr.classList.add = rowClassName;
         
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
@@ -55,11 +55,11 @@ class DataTable {
     renderData(dataCount, rData) { 
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
-             $tr.classList.add(this.rowClassName);
+            $tr.classList.add = rowClassName;
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
-                $td.classList.add(this.cellClassName);
+                $td.classList.add = cellClassName;
 
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
@@ -71,6 +71,7 @@ class DataTable {
 
     createTfooter() {
         const $tfooter = document.createElement('tr');
+        $tfooter = 
         $tfooter.classList.add('btnList');
         this.$tfooter = $tfooter;
         const $td = document.createElement('td');

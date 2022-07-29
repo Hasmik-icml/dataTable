@@ -18,7 +18,6 @@ class DataTable {
         this.$dataTableContainer = $dataTableContainer;
 
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
         this.$table = $table;
 
         $dataTableContainer.appendChild($table);
@@ -60,7 +59,6 @@ class DataTable {
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
                 $td.classList.add(this.cellClassName);
-
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
             }
