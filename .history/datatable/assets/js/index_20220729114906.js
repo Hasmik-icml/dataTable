@@ -144,11 +144,8 @@ const data = [
     }
 ];
 
-const options = {
-    dataCount: 5,
-};
-
-const dataTable = new DataTable(columns, data, options);
+const 
+const dataTable = new DataTable(columns, data);
 
 dataTable.createTable();
 

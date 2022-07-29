@@ -145,8 +145,8 @@ const data = [
 ];
 
 const options = {
-    dataCount: 5,
-};
+    dataCount: 10,
+}
 
 const dataTable = new DataTable(columns, data, options);
 

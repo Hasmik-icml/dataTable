@@ -17,6 +17,10 @@ class DataTable {
         this.createTbody();
         this.createSelect();
         
+        // const $select = document.querySelector('.selectDataCount');
+        // const dataCount = $select.value; 
+        // this.dataCount = dataCount;
+
         this.renderData(this.dataCount, this.data);
         this.createTfooter();   
     }
@@ -100,7 +104,7 @@ class DataTable {
        
         $container.appendChild($perPage);
 
-        $perPage.addEventListener('change', (e) => {
+        $perPage.addEventListener('cli', (e) => {
             this.dataCount = e.target.value;
             
             console.log(this.dataCount, this.forRender);

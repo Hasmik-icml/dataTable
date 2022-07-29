@@ -1,12 +1,10 @@
 class DataTable {
-    constructor(columns = [], data = [], {dataCount = 5}) {
+    constructor(columns = [], data = [], {data}) {
         this.columns = columns;
         this.data = data;
-        this.dataCount = dataCount;
     }
 
     createTable() {     
-
         const $table = document.createElement('table');
         this.$table = $table;
 
@@ -17,6 +15,12 @@ class DataTable {
         this.createTbody();
         this.createSelect();
         
+        const $select = document.querySelector('.selectDataCount');
+        const dataCount = $select.value; 
+        this.dataCount = dataCount;
+
+        console.log(this.dataCount);
+
         this.renderData(this.dataCount, this.data);
         this.createTfooter();   
     }
