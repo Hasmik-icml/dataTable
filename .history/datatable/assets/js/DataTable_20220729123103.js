@@ -6,7 +6,7 @@ class DataTable {
             dataCount = 5,
             rowClassName = 'test', 
             cellClassName = 'test',
-            tableClassName = 'test'
+            tableClassName = ''
         }
     ) {
         this.columns = columns;
@@ -37,7 +37,7 @@ class DataTable {
     createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-        $tr.classList.add(this.rowClassName);
+        // $tr.classList.add(this.rowClassName);
         
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
@@ -58,11 +58,11 @@ class DataTable {
     renderData(dataCount, rData) { 
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
-             $tr.classList.add(this.rowClassName);
+            //  $tr.classList.add(this.rowClassName);
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
-                $td.classList.add(this.cellClassName);
+                // $td.classList.add(this.cellClassName);
 
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);

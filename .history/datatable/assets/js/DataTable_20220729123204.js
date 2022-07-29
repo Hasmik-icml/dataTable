@@ -4,8 +4,8 @@ class DataTable {
         data = [], 
         {
             dataCount = 5,
-            rowClassName = 'test', 
-            cellClassName = 'test',
+            rowClassName = ' ', 
+            cellClassName = ' ',
             tableClassName = 'test'
         }
     ) {

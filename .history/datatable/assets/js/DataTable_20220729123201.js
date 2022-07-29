@@ -4,7 +4,7 @@ class DataTable {
         data = [], 
         {
             dataCount = 5,
-            rowClassName = 'test', 
+            rowClassName = ' ', 
             cellClassName = 'test',
             tableClassName = 'test'
         }

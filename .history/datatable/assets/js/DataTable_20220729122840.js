@@ -4,9 +4,9 @@ class DataTable {
         data = [], 
         {
             dataCount = 5,
-            rowClassName = 'test', 
-            cellClassName = 'test',
-            tableClassName = 'test'
+            rowClassName = '', 
+            cellClassName = '',
+            tableClassName = ''
         }
     ) {
         this.columns = columns;
@@ -21,7 +21,7 @@ class DataTable {
         this.$dataTableContainer = $dataTableContainer;
 
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
+        // $table.classList.add(this.tableClassName);
         this.$table = $table;
 
         $dataTableContainer.appendChild($table);
