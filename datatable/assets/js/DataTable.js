@@ -4,9 +4,10 @@ class DataTable {
         data = [], 
         {
             dataCount = 5,
-            rowClassName = 'test', 
-            cellClassName = 'test',
-            tableClassName = 'test'
+            rowClassName = 'table-row', 
+            cellClassName = 'table-cell',
+            tableClassName = 'main-table',
+            inputClassName = 'search-input'
         }
     ) {
         this.columns = columns;
@@ -15,10 +16,26 @@ class DataTable {
         this.rowClassName = rowClassName;
         this.cellClassName = cellClassName;
         this.tableClassName = tableClassName;
+        this.inputClassName = inputClassName;
     }
 
     createTable($dataTableContainer) {
         this.$dataTableContainer = $dataTableContainer;
+
+        let pagesCount = Math.ceil(this.data.length / this.dataCount);
+        this.pagesCount = pagesCount;
+
+        let baseData = this.data;
+        this.baseData = baseData;
+
+        const $label = document.createElement('label');
+        $label.innerHTML = 'SEARCH';
+        this.$dataTableContainer.appendChild($label);
+        
+        const $searchInput = document.createElement('input');
+        this.$searchInput = $searchInput;
+        $searchInput.classList.add(this.inputClassName);
+        this.$dataTableContainer.appendChild($searchInput);
 
         const $table = document.createElement('table');
         $table.classList.add(this.tableClassName);
@@ -30,7 +47,8 @@ class DataTable {
         this.createTbody();
         this.createSelect();
         this.renderData(this.dataCount, this.data);
-        this.createTfooter();   
+        this.createTfooter(); 
+        this.createSearch();
     }
 
     createThead() {
@@ -46,19 +64,19 @@ class DataTable {
             $th.addEventListener('click', (e) => {
                 let columnName = e.target.innerText.split(' ')[0];
                 let sortMethod = e.target.innerHTML.split(' ')[1];
+                let tempData = this.baseData.length == 0 ? this.data : this.baseData;
 
                 if (sortMethod === '↓') {
-
                     sortMethod = ' ↑';
                     $th.innerHTML = column + sortMethod;
 
                     if (columnName === 'id') {
 
-                        this.data = this.data.sort((dataA, dataB) => dataA.id - dataB.id);
-
+                        tempData.sort((dataA, dataB) => dataA.id - dataB.id);
+                   
                     } else if (columnName === 'name') {
 
-                        this.data = this.data.sort((dataA, dataB) => 
+                        tempData.sort((dataA, dataB) => 
                         {
                             let a = dataA.name.toLowerCase();
                             let b = dataB.name.toLowerCase();
@@ -72,22 +90,22 @@ class DataTable {
 
                     } else if (columnName === 'age') {
 
-                        this.data = this.data.sort((dataA, dataB) => dataA.age - dataB.age);
+                        tempData.sort((dataA, dataB) => dataA.age - dataB.age);
 
                     }
                    
                 } else if (sortMethod === '↑'){
 
-                    sortMethod = ' ↓';
-                    $th.innerHTML = column + sortMethod;
+                            sortMethod = ' ↓';
+                            $th.innerHTML = column + sortMethod;
                     
                     if (columnName === 'id') {
 
-                        this.data = this.data.sort((dataA, dataB) => dataB.id - dataA.id);
-
+                       tempData.sort((dataA, dataB) => dataB.id - dataA.id);
+                    
                     } else if (columnName === 'name') {
 
-                        this.data = this.data.sort((dataA, dataB) => 
+                        tempData.sort((dataA, dataB) => 
                         {
                             let a = dataA.name.toLowerCase();
                             let b = dataB.name.toLowerCase();
@@ -101,14 +119,13 @@ class DataTable {
 
                     } else if (columnName === 'age') {
 
-                        this.data = this.data.sort((dataA, dataB) => dataB.age - dataA.age);
+                        tempData.sort((dataA, dataB) => dataB.age - dataA.age);
 
                     }
-
                 } 
 
                 this.$tbody.innerHTML = '';
-                this.renderData(this.dataCount, this.data);
+                this.renderData(this.dataCount, tempData);
             });
         });
 
@@ -144,21 +161,19 @@ class DataTable {
         $tfooter.classList.add('btnList');
         this.$tfooter = $tfooter;
         const $td = document.createElement('td');
-
+        
         const attr = document.createAttribute("colspan");     
         attr.value = "3";
         $td.setAttributeNode(attr);
 
-        let pegesCount = Math.ceil(this.data.length / this.dataCount);
-
-        for (let btnCount = 1; btnCount <= pegesCount; btnCount++) {       
+        for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       
             const $btn = document.createElement('button');
 
             $btn.addEventListener('click', () => {
-                this.$tbody.innerHTML = '';
-                
                 let pageNumber = $btn.innerText;
-                this.pagination(pageNumber);
+
+                this.$tbody.innerHTML = '';
+                this.pagination(pageNumber, this.baseData.length == 0 ?  this.data : this.baseData);
             }); 
             
             $td.appendChild($btn);
@@ -188,18 +203,42 @@ class DataTable {
             this.dataCount = e.target.value;
             this.$tbody.innerHTML = '';
 
+            this.pagesCount = Math.ceil(this.baseData.length == 0 ?  this.data.lrngth: this.baseData.length / this.dataCount);
             let pageNumber = 1;
             this.$tfooter.remove();
             this.createTfooter();
-            this.pagination(pageNumber);
+            this.pagination(pageNumber, this.baseData.length == 0 ?  this.data : this.baseData);
         });
     }
 
-    pagination(pageNumber) {
+    createSearch() {
+        let searchText = '';
+        this.$searchInput.addEventListener('keyup', (e) => {
+            searchText = e.target.value;
+
+            if (searchText == '') {
+               this.baseData = this.data;
+            }
+
+            this.baseData = this.data.filter((value) => {
+                return value.name.includes(searchText);
+            });
+            
+            this.pagesCount = Math.ceil(this.baseData.length / this.dataCount);
+            this.$tfooter.remove();
+            this.$tbody.innerHTML = '';
+            this.createTfooter();
+            this.renderData(this.dataCount, this.baseData);
+        });
+
+    }
+
+    pagination(pageNumber, currentData) {
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
-        let forRender = this.data.slice(start, end);
+        let forRender = currentData.slice(start, end);
         this.forRender = forRender;
+        console.log('filter', this.data);
         this.renderData(this.dataCount, this.forRender);
     }
 }

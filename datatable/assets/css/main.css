@@ -37,3 +37,17 @@ select {
     background-color: darkcyan;
     color: white;
 }
+
+.search-input {
+    margin: 5px;
+    /* background-image: url('https://icon-library.com/images/search-icon-images/search-icon-images-10.jpg');
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: 40px;
+     background-position: left center; 
+    outline: 0; */
+}
+
+label {
+    color: darkcyan;
+}
