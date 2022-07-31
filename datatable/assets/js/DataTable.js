@@ -71,13 +71,9 @@ class DataTable {
                     $th.innerHTML = column + sortMethod;
 
                     if (columnName === 'id') {
-
                         tempData.sort((dataA, dataB) => dataA.id - dataB.id);
-                   
                     } else if (columnName === 'name') {
-
-                        tempData.sort((dataA, dataB) => 
-                        {
+                        tempData.sort((dataA, dataB) => {
                             let a = dataA.name.toLowerCase();
                             let b = dataB.name.toLowerCase();
 
@@ -89,24 +85,18 @@ class DataTable {
                         })
 
                     } else if (columnName === 'age') {
-
                         tempData.sort((dataA, dataB) => dataA.age - dataB.age);
-
                     }
                    
                 } else if (sortMethod === '↑'){
-
                             sortMethod = ' ↓';
                             $th.innerHTML = column + sortMethod;
                     
                     if (columnName === 'id') {
-
                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
-                    
                     } else if (columnName === 'name') {
 
-                        tempData.sort((dataA, dataB) => 
-                        {
+                        tempData.sort((dataA, dataB) => {
                             let a = dataA.name.toLowerCase();
                             let b = dataB.name.toLowerCase();
 
@@ -118,9 +108,7 @@ class DataTable {
                         })
 
                     } else if (columnName === 'age') {
-
                         tempData.sort((dataA, dataB) => dataB.age - dataA.age);
-
                     }
                 } 
 
