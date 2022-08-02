@@ -209,7 +209,7 @@ class DataTable {
             }
 
             this.baseData = this.data.filter((value) => {
-                return value.name.includes(searchText) || value.id === +searchText || value.age === +searchText;
+                return value.name.includes(searchText) || value.id == searchText || value.age.includes(searchText);
             });
             
             this.pagesCount = Math.ceil(this.baseData.length / this.dataCount);
