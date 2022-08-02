@@ -7,7 +7,7 @@ class DataTable {
             rowClassName = 'table-row', 
             cellClassName = 'table-cell',
             tableClassName = 'main-table',
-            tableHeadClassName = 'table-head-data',
+            tableHeadClassName = 'table-head'
             inputClassName = 'search-input'
         }
     ) {
@@ -18,7 +18,6 @@ class DataTable {
         this.cellClassName = cellClassName;
         this.tableClassName = tableClassName;
         this.inputClassName = inputClassName;
-        this.tableHeadClassName = tableHeadClassName;
     }
 
     createTable($dataTableContainer) {
@@ -61,7 +60,6 @@ class DataTable {
         this.columns.forEach((column) => {
             let sortMethod = true;
             const $th = document.createElement('th');
-            $th.classList.add('tableHeadClassName');
             $th.innerHTML = column + " ↓";
             $tr.appendChild($th);
 

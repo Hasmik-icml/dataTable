@@ -61,7 +61,7 @@ class DataTable {
         this.columns.forEach((column) => {
             let sortMethod = true;
             const $th = document.createElement('th');
-            $th.classList.add('tableHeadClassName');
+            $th.classList.add()
             $th.innerHTML = column + " ↓";
             $tr.appendChild($th);
 

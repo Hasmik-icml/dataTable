@@ -18,7 +18,7 @@ class DataTable {
         this.cellClassName = cellClassName;
         this.tableClassName = tableClassName;
         this.inputClassName = inputClassName;
-        this.tableHeadClassName = tableHeadClassName;
+        this.tab
     }
 
     createTable($dataTableContainer) {
@@ -61,7 +61,6 @@ class DataTable {
         this.columns.forEach((column) => {
             let sortMethod = true;
             const $th = document.createElement('th');
-            $th.classList.add('tableHeadClassName');
             $th.innerHTML = column + " ↓";
             $tr.appendChild($th);
 

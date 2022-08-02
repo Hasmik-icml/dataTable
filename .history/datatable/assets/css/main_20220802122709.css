@@ -55,7 +55,3 @@ label {
 .activePage{
     background-color:rgb(8, 76, 133);
 }
-
-.tableHeadClassName{
-    cursor: pointer;
-}
