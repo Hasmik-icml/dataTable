@@ -51,6 +51,4 @@ select {
 label {
     color: darkcyan;
 }
-.activePage{
-    background-color:rgb(8, 76, 133);
-}
+.activePage

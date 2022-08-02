@@ -159,11 +159,11 @@ class DataTable {
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       
             const $btn = document.createElement('button');
            
-            $btn.addEventListener('click', () => { 
-                const $prevActive = document.querySelector('.activePage');
-                if ($prevActive) {
-                    $prevActive.classList.remove('activePage');
-                }
+            $btn.addEventListener('click', () => {
+
+
+                // 
+                const $prevActive
                 
                 $btn.classList.add('activePage');
                 let pageNumber = $btn.innerText;

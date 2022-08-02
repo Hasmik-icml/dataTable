@@ -91,7 +91,7 @@ class DataTable {
                     }
                    
                 } else if (sortMethod === false){
-                            sortMethod = true;
+                            sortMethod = ' ↓';
                             $th.innerHTML = column + ' ↓';
                     
                     if (columnName === 'id') {
@@ -158,14 +158,8 @@ class DataTable {
 
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       
             const $btn = document.createElement('button');
-           
-            $btn.addEventListener('click', () => { 
-                const $prevActive = document.querySelector('.activePage');
-                if ($prevActive) {
-                    $prevActive.classList.remove('activePage');
-                }
-                
-                $btn.classList.add('activePage');
+
+            $btn.addEventListener('click', () => {
                 let pageNumber = $btn.innerText;
 
                 this.$tbody.innerHTML = '';

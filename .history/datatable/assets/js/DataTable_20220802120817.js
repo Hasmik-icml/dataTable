@@ -64,12 +64,12 @@ class DataTable {
 
             $th.addEventListener('click', (e) => {
                 let columnName = e.target.innerText.split(' ')[0];
-                // let sortMethod = e.target.innerHTML.split(' ')[1];
+                let sortMethod = e.target.innerHTML.split(' ')[1];
                 
                 let tempData = this.baseData.length == 0 ? this.data : this.baseData;
 
                 if (sortMethod === true) {
-                    sortMethod = false;
+                    sortMethod = ' ↑';
                     $th.innerHTML = column + ' ↑';
 
                     if (columnName === 'id') {
@@ -90,9 +90,9 @@ class DataTable {
                         tempData.sort((dataA, dataB) => dataA.age - dataB.age);
                     }
                    
-                } else if (sortMethod === false){
-                            sortMethod = true;
-                            $th.innerHTML = column + ' ↓';
+                } else if (sortMethod === '↑'){
+                            sortMethod = ' ↓';
+                            $th.innerHTML = column + sortMethod;
                     
                     if (columnName === 'id') {
                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
@@ -158,14 +158,8 @@ class DataTable {
 
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       
             const $btn = document.createElement('button');
-           
-            $btn.addEventListener('click', () => { 
-                const $prevActive = document.querySelector('.activePage');
-                if ($prevActive) {
-                    $prevActive.classList.remove('activePage');
-                }
-                
-                $btn.classList.add('activePage');
+
+            $btn.addEventListener('click', () => {
                 let pageNumber = $btn.innerText;
 
                 this.$tbody.innerHTML = '';
