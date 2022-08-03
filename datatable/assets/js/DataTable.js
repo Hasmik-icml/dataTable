@@ -59,26 +59,22 @@ class DataTable {
         $tr.classList.add(this.rowClassName);
         
         this.columns.forEach((column) => {
-            let sortMethod = true;
             const $th = document.createElement('th');
-            $th.classList.add('tableHeadClassName');
+            $th.classList.add(this.tableHeadClassName);
             $th.innerHTML = column.value;
             $th.setAttribute('data-sort', column.dataIndex);
+            $th.setAttribute('data-sort-order', 'asc');
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
-                $th.setAttribute('data-sort-order', 'asc');
                 let sortMethod = $th.getAttribute('data-sort-order');
                 let columnName = $th.getAttribute('data-sort');
-                console.log(sortMethod, columnName);
-                
-                let tempData = this.baseData.length == 0 ? this.data : this.baseData;
-               
-                
 
-                if (sortMethod === true) {
-                    sortMethod = false;
-                    $th.innerHTML = column.value + ' ↑';
+                let tempData = this.baseData.length == 0 ? this.data : this.baseData;                
+
+                if (sortMethod === 'asc') {
+                    $th.setAttribute('data-sort-order', 'des');
+                    $th.innerHTML = column.value;
 
                     if (columnName === 'id') {
                         tempData.sort((dataA, dataB) => dataA.id - dataB.id);
@@ -98,9 +94,9 @@ class DataTable {
                         tempData.sort((dataA, dataB) => dataA.age - dataB.age);
                     }
                    
-                } else if (sortMethod === false){
-                            sortMethod = true;
-                            $th.innerHTML = column.value + ' ↓';
+                } else if (sortMethod === 'des'){
+                            $th.setAttribute('data-sort-order', 'asc');
+                            $th.innerHTML = column.value;
                     
                     if (columnName === 'id') {
                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
