@@ -62,18 +62,23 @@ class DataTable {
             let sortMethod = true;
             const $th = document.createElement('th');
             $th.classList.add('tableHeadClassName');
-            $th.innerHTML = column + " ↓";
+            $th.innerHTML = column.value;
+            $th.setAttribute('data-sort', column.dataIndex);
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
-                let columnName = e.target.innerText.split(' ')[0];
-                // let sortMethod = e.target.innerHTML.split(' ')[1];
+                $th.setAttribute('data-sort-order', 'asc');
+                let sortMethod = $th.getAttribute('data-sort-order');
+                let columnName = $th.getAttribute('data-sort');
+                console.log(sortMethod, columnName);
                 
                 let tempData = this.baseData.length == 0 ? this.data : this.baseData;
+               
+                
 
                 if (sortMethod === true) {
                     sortMethod = false;
-                    $th.innerHTML = column + ' ↑';
+                    $th.innerHTML = column.value + ' ↑';
 
                     if (columnName === 'id') {
                         tempData.sort((dataA, dataB) => dataA.id - dataB.id);
@@ -95,7 +100,7 @@ class DataTable {
                    
                 } else if (sortMethod === false){
                             sortMethod = true;
-                            $th.innerHTML = column + ' ↓';
+                            $th.innerHTML = column.value + ' ↓';
                     
                     if (columnName === 'id') {
                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
@@ -229,7 +234,6 @@ class DataTable {
             this.createTfooter();
             this.renderData(this.dataCount, this.baseData);
         });
-
     }
 
     pagination(pageNumber, currentData) {
@@ -237,7 +241,6 @@ class DataTable {
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
         this.forRender = forRender;
-        console.log('filter', this.data);
         this.renderData(this.dataCount, this.forRender);
     }
 }
