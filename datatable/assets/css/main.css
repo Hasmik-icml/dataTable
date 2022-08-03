@@ -56,6 +56,14 @@ label {
     background-color:rgb(8, 76, 133);
 }
 
-.tableHeadClassName{
+.table-head-data{
     cursor: pointer;
+}
+
+th[data-sort-order = 'des']::after{
+    content: ' ↑';
+}
+
+th[data-sort-order = 'asc']::after{
+    content: ' ↓';
 }
