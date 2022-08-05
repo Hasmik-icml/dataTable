@@ -8,6 +8,7 @@ class DataTable {
             cellClassName = 'table-cell',
             tableClassName = 'main-table',
             tableHeadClassName = 'table-head-data',
+            deleteClassName = 'delete',
             inputClassName = 'search-input'
         }
     ) {
@@ -18,6 +19,7 @@ class DataTable {
         this.cellClassName = cellClassName;
         this.tableClassName = tableClassName;
         this.inputClassName = inputClassName;
+        this.deleteClassName = deleteClassName;
         this.tableHeadClassName = tableHeadClassName;
     }
 
@@ -62,8 +64,8 @@ class DataTable {
             const $th = document.createElement('th');
             $th.classList.add(this.tableHeadClassName);
             $th.innerHTML = column.value;
-            $th.setAttribute('data-sort', column.dataIndex);
-            $th.setAttribute('data-sort-order', 'asc');
+            column.dataIndex === 'delete' ? $th.setAttribute('data-delete', column.dataIndex): $th.setAttribute('data-sort', column.dataIndex);
+            column.dataIndex === 'delete' ? "" : $th.setAttribute('data-sort-order', 'asc');
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
@@ -134,6 +136,7 @@ class DataTable {
     }
 
     renderData(dataCount, rData) { 
+        console.log(dataCount, rData);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
              $tr.classList.add(this.rowClassName);
@@ -141,11 +144,31 @@ class DataTable {
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
                 $td.classList.add(this.cellClassName);
-
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
+                
             }
 
+            if (!(i >= rData.length)) {
+                const $tdDelete = document.createElement('td');
+                this.$tdDelete = $tdDelete;
+                this.$tdDelete.innerHTML = 'X';
+                $tdDelete.classList.add(this.deleteClassName);
+                $tr.appendChild(this.$tdDelete);
+            }
+
+            
+            
+
+            // $tdDelete.addEventListener('click', (e) => {
+            //     let del = e.target.setAttribute('data-isdeleted', true);
+               
+            //     if ($tdDelete.getAttribute('data-isdeleted') === true){
+            //      $tdDelete.remove();
+            //     }
+            //     this.pagination(dataCount, rData);
+            //     console.log(del);
+            // })
             this.$tbody.appendChild($tr);
         }
     }
@@ -157,7 +180,7 @@ class DataTable {
         const $td = document.createElement('td');
         
         const attr = document.createAttribute("colspan");     
-        attr.value = "3";
+        attr.value = "4";
         $td.setAttributeNode(attr);
 
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       

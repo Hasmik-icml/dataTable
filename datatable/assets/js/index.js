@@ -15,13 +15,17 @@ const columnsObject = [
         value: 'Age',
         dataIndex: 'age',
     },
+    {
+        value: 'Delete',
+        dataIndex: 'delete',
+    },
 ];
 
 const data = [
     {
         id:1,
         name: 'Albert',
-        age: 27,
+        age: 27,    
     },
     {
         id:2,

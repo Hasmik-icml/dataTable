@@ -6,6 +6,7 @@ body {
 table, tr, td, th {
     border: solid 1px #000000;
     color: darkcyan;
+    text-align: center;
 }
 
 th {
@@ -52,6 +53,10 @@ label {
     color: darkcyan;
 }
 
+.delete{
+    cursor: pointer;
+}
+
 .activePage{
     background-color:rgb(8, 76, 133);
 }
@@ -64,6 +69,5 @@ th[data-sort-order = 'des']::after{
     content: ' ↑';
 }
 
-th[data-sort-order = 'asc']::after{
-    content: ' ↓';
-}
+
+
