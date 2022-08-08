@@ -215,6 +215,7 @@ class DataTable {
                 this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
                 console.log('data', this.baseData);
                 console.log('pageCount-', dataCount);
+                console.log('pageNumber-', this.pageNumber);
                 this.$tfooter.remove();
                 this.$tbody.innerHTML = '';
                 this.#createTfooter();
@@ -372,10 +373,12 @@ class DataTable {
         $newDataForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let lastId = this.data[this.data.length - 1].id;
+            
             if (!$newName.value || !$newAge.value) {
                 alert(`The field must not be empty.`);
                 return;
             }
+
             if (id) {
                 console.log(id);
                 this.data.forEach((dt) => {
@@ -384,11 +387,10 @@ class DataTable {
                         dt.age = $newAge.value;
                     }
                 })
-                
             this.$tbody.innerHTML = '';
             this.$tfooter.remove();
             this.#createTfooter();
-            this.#pagination(this.pageNumber, this.data);
+            this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.data);
                 
             } else {
                 let newData = {
