@@ -19,6 +19,10 @@ const columnsObject = [
         value: 'Delete',
         dataIndex: 'delete',
     },
+    {
+        value: 'Edit',
+        dataIndex: 'edit',
+    },
 ];
 
 const data = [

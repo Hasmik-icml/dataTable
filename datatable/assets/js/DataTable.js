@@ -1,17 +1,17 @@
 class DataTable {
     constructor(
-        columns = [], 
-        data = [], 
-        {
+        columns = [],
+        data = [], {
             dataCount = 5,
-            rowClassName = 'table-row', 
+            rowClassName = 'table-row',
             cellClassName = 'table-cell',
             tableClassName = 'main-table',
             tableHeadClassName = 'table-head-data',
             deleteClassName = 'delete',
             inputClassName = 'search-input',
             buttonClassName = 'button-add',
-            headerDiv = 'header-div'
+            headerDiv = 'header-div',
+            editClassName = 'edit-data',
         }
     ) {
         this.columns = columns;
@@ -25,6 +25,7 @@ class DataTable {
         this.tableHeadClassName = tableHeadClassName;
         this.buttonClassName = buttonClassName;
         this.headerDiv = headerDiv;
+        this.editClassName = editClassName;
     }
 
     createTable($dataTableContainer) {
@@ -32,7 +33,7 @@ class DataTable {
 
         let pagesCount = Math.ceil(this.data.length / this.dataCount);
         this.pagesCount = pagesCount;
-        console.log('pagesCount',pagesCount);
+        console.log('pagesCount', pagesCount);
 
         let baseData = null;
         this.baseData = baseData;
@@ -44,7 +45,7 @@ class DataTable {
         const $label = document.createElement('label');
         $label.innerHTML = 'SEARCH';
         $headerDiv.appendChild($label);
-        
+
         const $searchInput = document.createElement('input');
         this.$searchInput = $searchInput;
         $searchInput.classList.add(this.inputClassName);
@@ -56,7 +57,7 @@ class DataTable {
         $addNewData.addEventListener('click', () => {
             if (document.querySelector('form')) {
                 return;
-            } 
+            }
             this.#addNewData();
         })
         $headerDiv.appendChild($addNewData);
@@ -71,7 +72,7 @@ class DataTable {
         this.#createTbody();
         this.#createSelect();
         this.#renderData(this.dataCount, this.data);
-        this.#createTfooter(); 
+        this.#createTfooter();
         this.#createSearch();
     }
 
@@ -79,20 +80,28 @@ class DataTable {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
-        
+
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
             $th.classList.add(this.tableHeadClassName);
             $th.innerHTML = column.value;
-            column.dataIndex === 'delete' ? $th.setAttribute('data-delete', column.dataIndex): $th.setAttribute('data-sort', column.dataIndex);
-            column.dataIndex === 'delete' ? "" : $th.setAttribute('data-sort-order', 'asc');
+
+            if (column.dataIndex === 'edit') {
+                $th.setAttribute('data-edit', column.dataIndex);
+            } else if (column.dataIndex === 'delete') {
+                $th.setAttribute('data-delete', column.dataIndex);
+            } else {
+                $th.setAttribute('data-sort', column.dataIndex);
+                $th.setAttribute('data-sort-order', 'asc');
+            }
+
             $tr.appendChild($th);
 
             $th.addEventListener('click', (e) => {
                 let sortMethod = $th.getAttribute('data-sort-order');
                 let columnName = $th.getAttribute('data-sort');
 
-                let tempData = this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData;                
+                let tempData = this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData;
 
                 if (sortMethod === 'asc') {
                     $th.setAttribute('data-sort-order', 'des');
@@ -106,7 +115,7 @@ class DataTable {
                             let b = dataB.name.toLowerCase();
 
                             if (a < b) return -1;
-                            
+
                             if (a > b) return 1;
 
                             return 0;
@@ -115,11 +124,11 @@ class DataTable {
                     } else if (columnName === 'age') {
                         tempData.sort((dataA, dataB) => dataA.age - dataB.age);
                     }
-                   
-                } else if (sortMethod === 'des'){
-                            $th.setAttribute('data-sort-order', 'asc');
-                            $th.innerHTML = column.value;
-                    
+
+                } else if (sortMethod === 'des') {
+                    $th.setAttribute('data-sort-order', 'asc');
+                    $th.innerHTML = column.value;
+
                     if (columnName === 'id') {
                         tempData.sort((dataA, dataB) => dataB.id - dataA.id);
                     } else if (columnName === 'name') {
@@ -129,7 +138,7 @@ class DataTable {
                             let b = dataB.name.toLowerCase();
 
                             if (b < a) return -1;
-                            
+
                             if (b > a) return 1;
 
                             return 0;
@@ -138,14 +147,14 @@ class DataTable {
                     } else if (columnName === 'age') {
                         tempData.sort((dataA, dataB) => dataB.age - dataA.age);
                     }
-                } 
+                }
 
                 this.$tbody.innerHTML = '';
                 this.#renderData(this.dataCount, tempData);
             });
         });
 
-        $thead.appendChild($tr); 
+        $thead.appendChild($tr);
         this.$table.appendChild($thead);
     }
 
@@ -155,19 +164,19 @@ class DataTable {
         this.$table.appendChild($tbody);
     }
 
-    #renderData(dataCount, rData) { 
+    #renderData(dataCount, rData) {
         console.log(dataCount, this.data);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
-             $tr.classList.add(this.rowClassName);
-             
+            $tr.classList.add(this.rowClassName);
+
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
                 $td.classList.add(this.cellClassName);
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
-                
+
             }
 
             if (!(i >= rData.length)) {
@@ -177,8 +186,15 @@ class DataTable {
                 this.$tdDelete.classList.add(this.deleteClassName);
                 this.$tdDelete.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdDelete);
+
+                const $tdEdit = document.createElement('td');
+                this.$tdEdit = $tdEdit;
+                this.$tdEdit.innerHTML = '✎';
+                this.$tdEdit.classList.add(this.editClassName);
+                this.$tdEdit.setAttribute('data-id', rData[i].id);
+                $tr.appendChild(this.$tdEdit);
             }
-            
+
             this.$tdDelete.addEventListener('click', (e) => {
                 let del = e.target.dataset.id;
                 console.log(del);
@@ -195,15 +211,35 @@ class DataTable {
                         return dt.id != del;
                     })
                 }
-                
-                this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
+
+                this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
                 console.log('data', this.baseData);
-                console.log('pageCount-' , dataCount);
+                console.log('pageCount-', dataCount);
                 this.$tfooter.remove();
                 this.$tbody.innerHTML = '';
                 this.#createTfooter();
-                this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ?  this.data : this.baseData);
+                this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             })
+
+            this.$tdEdit.addEventListener('click', (e) => {
+                let editDataId = e.target.dataset.id;
+                console.log(editDataId);
+                let editName = '';
+                let editAge = '';
+                this.data.forEach((dt) => {
+                    console.log(editDataId);
+                    if (dt.id == editDataId) {
+                        editName = dt.name;
+                        editAge = dt.age;
+                    }
+                })
+                console.log(editName, editAge);
+                if (document.querySelector('form')) {
+                    return;
+                }
+                this.#addNewData(editName, editAge, editDataId);
+            })
+
             this.$tbody.appendChild($tr);
         }
     }
@@ -213,27 +249,28 @@ class DataTable {
         $tfooter.classList.add('btnList');
         this.$tfooter = $tfooter;
         const $td = document.createElement('td');
-        
-        const attr = document.createAttribute("colspan");     
+
+        const attr = document.createAttribute("colspan");
         attr.value = "4";
         $td.setAttributeNode(attr);
 
-        for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {       
+        for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {
             const $btn = document.createElement('button');
-           
-            $btn.addEventListener('click', () => { 
+
+            $btn.addEventListener('click', () => {
                 const $prevActive = document.querySelector('.activePage');
                 if ($prevActive) {
                     $prevActive.classList.remove('activePage');
                 }
-                
+
                 $btn.classList.add('activePage');
                 let pageNumber = $btn.innerText;
+                this.pageNumber = pageNumber;
 
                 this.$tbody.innerHTML = '';
-                this.#pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
-            }); 
-            
+                this.#pagination(this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+            });
+
             $td.appendChild($btn);
             $btn.innerHTML = btnCount;
             $tfooter.appendChild($td);
@@ -245,23 +282,22 @@ class DataTable {
     #createSelect() {
         const $perPage = document.createElement('select');
         $perPage.classList.add("selectDataCount");
-        
-        for (let val = 1; val <= 5; val++) 
-        {
+
+        for (let val = 1; val <= 5; val++) {
             const $opt = document.createElement('option');
-            
+
             $perPage.appendChild($opt);
             $opt.value = val * 5;
             $opt.innerHTML = val * 5;
         }
-       
+
         this.$dataTableContainer.appendChild($perPage);
 
         $perPage.addEventListener('change', (e) => {
             this.dataCount = e.target.value;
             this.$tbody.innerHTML = '';
 
-            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
+            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
             let pageNumber = 1;
             this.$tfooter.remove();
             this.#createTfooter();
@@ -282,8 +318,8 @@ class DataTable {
             this.baseData = this.data.filter((value) => {
                 return value.name.includes(searchText) || value.id === +searchText || value.age === +searchText;
             });
-            
-            this.pagesCount = Math.ceil(this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
+
+            this.pagesCount = Math.ceil(this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
             this.$tfooter.remove();
             this.$tbody.innerHTML = '';
             this.#createTfooter();
@@ -292,20 +328,22 @@ class DataTable {
         });
     }
 
-    #addNewData(){
+    #addNewData(name, age, id) {
         const $empatyDiv = document.createElement('div');
         $empatyDiv.classList.add('backdrop');
-    
+
         const $newDataForm = document.createElement('form');
-        
+
         const $newNameLabel = document.createElement('label');
         $newNameLabel.innerHTML = 'Name';
         const $newName = document.createElement('input');
+        name ? $newName.value = name : "";
         $newNameLabel.appendChild($newName);
 
         const $newAgeLabel = document.createElement('label');
         $newAgeLabel.innerHTML = 'Age';
         const $newAge = document.createElement('input');
+        age ? $newAge.value = age : "";
         $newAgeLabel.appendChild($newAge);
 
         const $saveButton = document.createElement('button');
@@ -334,31 +372,46 @@ class DataTable {
         $newDataForm.addEventListener('submit', (e) => {
             e.preventDefault();
             let lastId = this.data[this.data.length - 1].id;
-            // console.log(lastId);
             if (!$newName.value || !$newAge.value) {
                 alert(`The field must not be empty.`);
                 return;
             }
-            let newData = {
-                id: lastId + 1,
-                name: $newName.value,
-                age: $newAge.value,
-            }
-            this.data.push(newData);
-
-            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
-
+            if (id) {
+                console.log(id);
+                this.data.forEach((dt) => {
+                    if (dt.id == id) {
+                        dt.name = $newName.value;
+                        dt.age = $newAge.value;
+                    }
+                })
+                
             this.$tbody.innerHTML = '';
             this.$tfooter.remove();
             this.#createTfooter();
-            this.#pagination(this.pagesCount, this.data);
-            console.log(this.data);
-            
+            this.#pagination(this.pageNumber, this.data);
+                
+            } else {
+                let newData = {
+                    id: lastId + 1,
+                    name: $newName.value,
+                    age: $newAge.value,
+                }
+                this.data.push(newData);
+                this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
+    
+                this.$tbody.innerHTML = '';
+                this.$tfooter.remove();
+                this.#createTfooter();
+                this.#pagination(this.pagesCount, this.data);
+                console.log(this.data);
+            }
+
+
         })
     }
 
     #pagination(pageNumber, currentData) {
-        console.log('pageNumber',pageNumber);
+        console.log('pageNumber', pageNumber);
         console.log('currentData', currentData);
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
@@ -368,4 +421,4 @@ class DataTable {
     }
 }
 
-export default DataTable; 
+export default DataTable;
