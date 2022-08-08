@@ -140,6 +140,7 @@ class DataTable {
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
              $tr.classList.add(this.rowClassName);
+             
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
@@ -153,22 +154,21 @@ class DataTable {
                 const $tdDelete = document.createElement('td');
                 this.$tdDelete = $tdDelete;
                 this.$tdDelete.innerHTML = 'X';
-                $tdDelete.classList.add(this.deleteClassName);
+                this.$tdDelete.classList.add(this.deleteClassName);
+                this.$tdDelete.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdDelete);
             }
-
             
-            
+            this.$tdDelete.addEventListener('click', (e) => {
+                let del = e.target.dataset.id;
+                console.log(del);
 
-            // $tdDelete.addEventListener('click', (e) => {
-            //     let del = e.target.setAttribute('data-isdeleted', true);
-               
-            //     if ($tdDelete.getAttribute('data-isdeleted') === true){
-            //      $tdDelete.remove();
-            //     }
-            //     this.pagination(dataCount, rData);
-            //     console.log(del);
-            // })
+                rData = rData.filter((dt) => {
+                    return dt.id != del;
+                })
+                console.log(rData);
+                
+            })
             this.$tbody.appendChild($tr);
         }
     }
