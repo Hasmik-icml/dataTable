@@ -75,7 +75,7 @@ class DataTable {
         this.createSearch();
     }
 
-    createThead() {
+    #createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
@@ -149,13 +149,13 @@ class DataTable {
         this.$table.appendChild($thead);
     }
 
-    createTbody() {
+    #createTbody() {
         const $tbody = document.createElement('tbody');
         this.$tbody = $tbody;
         this.$table.appendChild($tbody);
     }
 
-    renderData(dataCount, rData) { 
+    #renderData(dataCount, rData) { 
         console.log(dataCount, this.data);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
@@ -208,7 +208,7 @@ class DataTable {
         }
     }
 
-    createTfooter() {
+    #createTfooter() {
         const $tfooter = document.createElement('tr');
         $tfooter.classList.add('btnList');
         this.$tfooter = $tfooter;
@@ -242,7 +242,7 @@ class DataTable {
         this.$table.appendChild($tfooter);
     }
 
-    createSelect() {
+    #createSelect() {
         const $perPage = document.createElement('select');
         $perPage.classList.add("selectDataCount");
         
@@ -269,7 +269,7 @@ class DataTable {
         });
     }
 
-    createSearch() {
+    #createSearch() {
         let searchText = '';
         this.$searchInput.addEventListener('input', (e) => {
             searchText = e.target.value;
@@ -292,7 +292,7 @@ class DataTable {
         });
     }
 
-    addNewData(){
+    #addNewData(){
         const $newDataForm = document.createElement('form');
         
         const $newNameLabel = document.createElement('label');
@@ -351,7 +351,7 @@ class DataTable {
         })
     }
 
-    pagination(pageNumber, currentData) {
+    #pagination(pageNumber, currentData) {
         console.log('pageNumber',pageNumber);
         console.log('currentData', currentData);
         let start = (pageNumber - 1) * this.dataCount;
