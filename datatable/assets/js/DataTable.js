@@ -53,6 +53,12 @@ class DataTable {
         const $addNewData = document.createElement('button');
         $addNewData.classList.add(this.buttonClassName);
         $addNewData.innerHTML = 'Add new data';
+        $addNewData.addEventListener('click', () => {
+            if (document.querySelector('form')) {
+                return;
+            } 
+            this.addNewData();
+        })
         $headerDiv.appendChild($addNewData);
 
         const $table = document.createElement('table');
@@ -67,16 +73,6 @@ class DataTable {
         this.renderData(this.dataCount, this.data);
         this.createTfooter(); 
         this.createSearch();
-    }
-    copyData(data){
-        let baseData = [];
-        if (typeof data !== 'object' || data === null) return data;
-
-        baseData = Array.isArray(data) ? [] : {};
-        for (let key in data) {
-            baseData[key] = this.copyData(data[key]);
-        }
-        return baseData;
     }
 
     createThead() {
@@ -294,6 +290,65 @@ class DataTable {
             console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             this.renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
+    }
+
+    addNewData(){
+        const $newDataForm = document.createElement('form');
+        
+        const $newNameLabel = document.createElement('label');
+        $newNameLabel.innerHTML = 'Name';
+        const $newName = document.createElement('input');
+        $newNameLabel.appendChild($newName);
+
+        const $newAgeLabel = document.createElement('label');
+        $newAgeLabel.innerHTML = 'Age';
+        const $newAge = document.createElement('input');
+        $newAgeLabel.appendChild($newAge);
+
+        const $saveButton = document.createElement('button');
+        $saveButton.setAttribute('type', 'submit');
+        $saveButton.setAttribute('value', 'Submit');
+        $saveButton.innerHTML = 'Save';
+
+        const $cancelButton = document.createElement('button');
+        $cancelButton.setAttribute('type', 'cancel');
+        $cancelButton.addEventListener('click', () => {
+            const form = document.querySelector('form');
+            form.remove();
+        })
+        $cancelButton.innerHTML = 'Cancel';
+
+        $newDataForm.appendChild($newNameLabel);
+        $newDataForm.appendChild($newAgeLabel);
+        $newDataForm.appendChild($saveButton);
+        $newDataForm.appendChild($cancelButton);
+
+        this.$dataTableContainer.appendChild($newDataForm);
+
+        $newDataForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let lastId = this.data[this.data.length - 1].id;
+            // console.log(lastId);
+            if (!$newName.value || !$newAge.value) {
+                alert(`The field must not be empty.`);
+                return;
+            }
+            let newData = {
+                id: lastId + 1,
+                name: $newName.value,
+                age: $newAge.value,
+            }
+            this.data.push(newData);
+
+            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
+
+            this.$tbody.innerHTML = '';
+            this.$tfooter.remove();
+            this.createTfooter();
+            this.pagination(this.pagesCount, this.data);
+            console.log(this.data);
+            
+        })
     }
 
     pagination(pageNumber, currentData) {
