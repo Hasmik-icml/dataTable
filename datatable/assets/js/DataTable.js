@@ -24,12 +24,14 @@ class DataTable {
     }
 
     createTable($dataTableContainer) {
+        console.log('-------------', this.dataCount, this.data);
         this.$dataTableContainer = $dataTableContainer;
 
         let pagesCount = Math.ceil(this.data.length / this.dataCount);
         this.pagesCount = pagesCount;
+        console.log('pagesCount',pagesCount);
 
-        let baseData = this.data;
+        let baseData = null;
         this.baseData = baseData;
 
         const $label = document.createElement('label');
@@ -54,6 +56,16 @@ class DataTable {
         this.createTfooter(); 
         this.createSearch();
     }
+    copyData(data){
+        let baseData = [];
+        if (typeof data !== 'object' || data === null) return data;
+
+        baseData = Array.isArray(data) ? [] : {};
+        for (let key in data) {
+            baseData[key] = this.copyData(data[key]);
+        }
+        return baseData;
+    }
 
     createThead() {
         const $thead = document.createElement('thead');
@@ -72,7 +84,7 @@ class DataTable {
                 let sortMethod = $th.getAttribute('data-sort-order');
                 let columnName = $th.getAttribute('data-sort');
 
-                let tempData = this.baseData.length == 0 ? this.data : this.baseData;                
+                let tempData = this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData;                
 
                 if (sortMethod === 'asc') {
                     $th.setAttribute('data-sort-order', 'des');
@@ -101,7 +113,7 @@ class DataTable {
                             $th.innerHTML = column.value;
                     
                     if (columnName === 'id') {
-                       tempData.sort((dataA, dataB) => dataB.id - dataA.id);
+                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
                     } else if (columnName === 'name') {
 
                         tempData.sort((dataA, dataB) => {
@@ -136,7 +148,7 @@ class DataTable {
     }
 
     renderData(dataCount, rData) { 
-        console.log(dataCount, rData);
+        console.log(dataCount, this.data);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
              $tr.classList.add(this.rowClassName);
@@ -163,11 +175,26 @@ class DataTable {
                 let del = e.target.dataset.id;
                 console.log(del);
 
-                rData = rData.filter((dt) => {
-                    return dt.id != del;
-                })
-                console.log(rData);
+                if (this.baseData == null || this.baseData.length == 0) {
+                    this.data = this.data.filter((dt) => {
+                        return dt.id != del;
+                    })
+                } else {
+                    this.data = this.data.filter((dt) => {
+                        return dt.id != del;
+                    })
+                    this.baseData = this.baseData.filter((dt) => {
+                        return dt.id != del;
+                    })
+                }
                 
+                this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
+                console.log('data', this.baseData);
+                console.log('pageCount-' , dataCount);
+                this.$tfooter.remove();
+                this.$tbody.innerHTML = '';
+                this.createTfooter();
+                this.renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ?  this.data : this.baseData);
             })
             this.$tbody.appendChild($tr);
         }
@@ -196,7 +223,7 @@ class DataTable {
                 let pageNumber = $btn.innerText;
 
                 this.$tbody.innerHTML = '';
-                this.pagination(pageNumber, this.baseData.length == 0 ?  this.data : this.baseData);
+                this.pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             }); 
             
             $td.appendChild($btn);
@@ -226,11 +253,11 @@ class DataTable {
             this.dataCount = e.target.value;
             this.$tbody.innerHTML = '';
 
-            this.pagesCount = Math.ceil(this.baseData.length == 0 ?  this.data.lrngth: this.baseData.length / this.dataCount);
+            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
             let pageNumber = 1;
             this.$tfooter.remove();
             this.createTfooter();
-            this.pagination(pageNumber, this.baseData.length == 0 ?  this.data : this.baseData);
+            this.pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
 
@@ -239,23 +266,27 @@ class DataTable {
         this.$searchInput.addEventListener('input', (e) => {
             searchText = e.target.value;
 
+            console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             if (searchText == '') {
-               this.baseData = this.data;
+                this.pagination(1, this.data);
             }
 
             this.baseData = this.data.filter((value) => {
                 return value.name.includes(searchText) || value.id === +searchText || value.age === +searchText;
             });
             
-            this.pagesCount = Math.ceil(this.baseData.length / this.dataCount);
+            this.pagesCount = Math.ceil(this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
             this.$tfooter.remove();
             this.$tbody.innerHTML = '';
             this.createTfooter();
-            this.renderData(this.dataCount, this.baseData);
+            console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+            this.renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
 
     pagination(pageNumber, currentData) {
+        console.log('pageNumber',pageNumber);
+        console.log('currentData', currentData);
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
