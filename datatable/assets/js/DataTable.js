@@ -9,7 +9,9 @@ class DataTable {
             tableClassName = 'main-table',
             tableHeadClassName = 'table-head-data',
             deleteClassName = 'delete',
-            inputClassName = 'search-input'
+            inputClassName = 'search-input',
+            buttonClassName = 'button-add',
+            headerDiv = 'header-div'
         }
     ) {
         this.columns = columns;
@@ -21,10 +23,11 @@ class DataTable {
         this.inputClassName = inputClassName;
         this.deleteClassName = deleteClassName;
         this.tableHeadClassName = tableHeadClassName;
+        this.buttonClassName = buttonClassName;
+        this.headerDiv = headerDiv;
     }
 
     createTable($dataTableContainer) {
-        console.log('-------------', this.dataCount, this.data);
         this.$dataTableContainer = $dataTableContainer;
 
         let pagesCount = Math.ceil(this.data.length / this.dataCount);
@@ -34,14 +37,23 @@ class DataTable {
         let baseData = null;
         this.baseData = baseData;
 
+        const $headerDiv = document.createElement('div');
+        $headerDiv.classList.add(this.headerDiv);
+        this.$dataTableContainer.appendChild($headerDiv);
+
         const $label = document.createElement('label');
         $label.innerHTML = 'SEARCH';
-        this.$dataTableContainer.appendChild($label);
+        $headerDiv.appendChild($label);
         
         const $searchInput = document.createElement('input');
         this.$searchInput = $searchInput;
         $searchInput.classList.add(this.inputClassName);
-        this.$dataTableContainer.appendChild($searchInput);
+        $label.appendChild($searchInput);
+
+        const $addNewData = document.createElement('button');
+        $addNewData.classList.add(this.buttonClassName);
+        $addNewData.innerHTML = 'Add new data';
+        $headerDiv.appendChild($addNewData);
 
         const $table = document.createElement('table');
         $table.classList.add(this.tableClassName);
