@@ -57,7 +57,7 @@ class DataTable {
             if (document.querySelector('form')) {
                 return;
             } 
-            this.addNewData();
+            this.#addNewData();
         })
         $headerDiv.appendChild($addNewData);
 
@@ -67,12 +67,12 @@ class DataTable {
 
         $dataTableContainer.appendChild($table);
 
-        this.createThead();
-        this.createTbody();
-        this.createSelect();
-        this.renderData(this.dataCount, this.data);
-        this.createTfooter(); 
-        this.createSearch();
+        this.#createThead();
+        this.#createTbody();
+        this.#createSelect();
+        this.#renderData(this.dataCount, this.data);
+        this.#createTfooter(); 
+        this.#createSearch();
     }
 
     #createThead() {
@@ -141,7 +141,7 @@ class DataTable {
                 } 
 
                 this.$tbody.innerHTML = '';
-                this.renderData(this.dataCount, tempData);
+                this.#renderData(this.dataCount, tempData);
             });
         });
 
@@ -201,8 +201,8 @@ class DataTable {
                 console.log('pageCount-' , dataCount);
                 this.$tfooter.remove();
                 this.$tbody.innerHTML = '';
-                this.createTfooter();
-                this.renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ?  this.data : this.baseData);
+                this.#createTfooter();
+                this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ?  this.data : this.baseData);
             })
             this.$tbody.appendChild($tr);
         }
@@ -231,7 +231,7 @@ class DataTable {
                 let pageNumber = $btn.innerText;
 
                 this.$tbody.innerHTML = '';
-                this.pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+                this.#pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             }); 
             
             $td.appendChild($btn);
@@ -264,8 +264,8 @@ class DataTable {
             this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
             let pageNumber = 1;
             this.$tfooter.remove();
-            this.createTfooter();
-            this.pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+            this.#createTfooter();
+            this.#pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
 
@@ -276,7 +276,7 @@ class DataTable {
 
             console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             if (searchText == '') {
-                this.pagination(1, this.data);
+                this.#pagination(1, this.data);
             }
 
             this.baseData = this.data.filter((value) => {
@@ -286,13 +286,16 @@ class DataTable {
             this.pagesCount = Math.ceil(this.baseData.length == 0 ? this.data.length/this.dataCount : this.baseData.length / this.dataCount);
             this.$tfooter.remove();
             this.$tbody.innerHTML = '';
-            this.createTfooter();
+            this.#createTfooter();
             console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
-            this.renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+            this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
 
     #addNewData(){
+        const $empatyDiv = document.createElement('div');
+        $empatyDiv.classList.add('backdrop');
+    
         const $newDataForm = document.createElement('form');
         
         const $newNameLabel = document.createElement('label');
@@ -315,6 +318,8 @@ class DataTable {
         $cancelButton.addEventListener('click', () => {
             const form = document.querySelector('form');
             form.remove();
+            const backdrop = document.querySelector('.backdrop');
+            backdrop.remove();
         })
         $cancelButton.innerHTML = 'Cancel';
 
@@ -323,6 +328,7 @@ class DataTable {
         $newDataForm.appendChild($saveButton);
         $newDataForm.appendChild($cancelButton);
 
+        this.$dataTableContainer.appendChild($empatyDiv);
         this.$dataTableContainer.appendChild($newDataForm);
 
         $newDataForm.addEventListener('submit', (e) => {
@@ -344,8 +350,8 @@ class DataTable {
 
             this.$tbody.innerHTML = '';
             this.$tfooter.remove();
-            this.createTfooter();
-            this.pagination(this.pagesCount, this.data);
+            this.#createTfooter();
+            this.#pagination(this.pagesCount, this.data);
             console.log(this.data);
             
         })
@@ -358,7 +364,7 @@ class DataTable {
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
         this.forRender = forRender;
-        this.renderData(this.dataCount, this.forRender);
+        this.#renderData(this.dataCount, this.forRender);
     }
 }
 
