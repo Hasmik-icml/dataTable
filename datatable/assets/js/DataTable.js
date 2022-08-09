@@ -150,7 +150,7 @@ class DataTable {
                 }
 
                 this.$tbody.innerHTML = '';
-                this.#renderData(this.dataCount, tempData);
+                this.#pagination(!this.pageNumber ? 1 : this.pageNumber, tempData);
             });
         });
 
@@ -216,10 +216,22 @@ class DataTable {
                 console.log('data', this.baseData);
                 console.log('pageCount-', dataCount);
                 console.log('pageNumber-', this.pageNumber);
-                this.$tfooter.remove();
+                
+                // const $currentActive = document.querySelectorAll('button');
+                // console.log($currentActive);
+
+                // for (let i = 0; i < $currentActive.length; i++){
+                //     if ($currentActive[i].innerHTML == this.pageNumber) {
+                //         console.log($currentActive[i]);
+                //         // $currentActive[i].classList.add('activePage');
+                //     }
+                // }
+
+
                 this.$tbody.innerHTML = '';
+                this.$tfooter.remove();
                 this.#createTfooter();
-                this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+                this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             })
 
             this.$tdEdit.addEventListener('click', (e) => {
@@ -325,7 +337,7 @@ class DataTable {
             this.$tbody.innerHTML = '';
             this.#createTfooter();
             console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
-            this.#renderData(this.dataCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+            this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
 
