@@ -76,7 +76,6 @@ th[data-sort-order = 'asc']::after{
 .button-add{
     width: 100px;
     height: 20px;
-    /* margin-left: 40px; */
 }
 
 .header-div{

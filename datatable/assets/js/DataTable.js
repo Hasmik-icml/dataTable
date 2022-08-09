@@ -197,7 +197,6 @@ class DataTable {
 
             this.$tdDelete.addEventListener('click', (e) => {
                 let del = e.target.dataset.id;
-                console.log(del);
 
                 if (this.baseData == null || this.baseData.length == 0) {
                     this.data = this.data.filter((dt) => {
@@ -213,26 +212,23 @@ class DataTable {
                 }
 
                 this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
-                console.log('data', this.baseData);
-                console.log('pageCount-', dataCount);
-                console.log('pageNumber-', this.pageNumber);
-                
-                // const $currentActive = document.querySelectorAll('button');
-                // console.log($currentActive);
-
-                // for (let i = 0; i < $currentActive.length; i++){
-                //     if ($currentActive[i].innerHTML == this.pageNumber) {
-                //         console.log($currentActive[i]);
-                //         // $currentActive[i].classList.add('activePage');
-                //     }
-                // }
-
-
+               
                 this.$tbody.innerHTML = '';
                 this.$tfooter.remove();
                 this.#createTfooter();
                 this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             })
+
+             const $currentActive = document.querySelectorAll('button');
+             for (let i = 0; i < $currentActive.length; i++) {
+
+                 if ($currentActive[i].innerHTML == this.pageNumber) {
+                     console.log($currentActive[i]);
+                     $currentActive[i].classList.add('activePage');
+                     break;
+                 }
+
+             }
 
             this.$tdEdit.addEventListener('click', (e) => {
                 let editDataId = e.target.dataset.id;
