@@ -264,7 +264,7 @@ class DataTable {
         const $td = document.createElement('td');
 
         const attr = document.createAttribute("colspan");
-        attr.value = "4";
+        attr.value = "5";
         $td.setAttributeNode(attr);
 
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {
