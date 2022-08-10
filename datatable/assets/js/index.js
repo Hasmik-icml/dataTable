@@ -172,13 +172,11 @@ const options = {
  
 };
 
-const dataTable = new DataTable(columnsObject, data, options);
-
 const $dataTableContainer = document.querySelector('.data-table-container');
 
-dataTable.createTable($dataTableContainer);
+Element.prototype.dataTable = function (columnsObject, data, options) {
+  const dataTable = new DataTable(columnsObject, data, options);
+  dataTable.createTable(this);
+}
 
-// Element.prototype.DataTable = function(){
-    
-// }
-// const $table = document.querySelector('data-table-container')
+$dataTableContainer.dataTable(columnsObject, data, options);
