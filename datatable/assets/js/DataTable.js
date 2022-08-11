@@ -380,10 +380,7 @@ class DataTable {
         const $cancelButton = document.createElement('button');
         $cancelButton.setAttribute('type', 'cancel');
         $cancelButton.addEventListener('click', () => {
-            const form = document.querySelector('form');
-            form.remove();
-            const backdrop = document.querySelector('.backdrop');
-            backdrop.remove();
+            closeForm();
         })
         $cancelButton.innerHTML = 'Cancel';
 
@@ -394,6 +391,13 @@ class DataTable {
 
         this.$dataTableContainer.appendChild($empatyDiv);
         this.$dataTableContainer.appendChild($newDataForm);
+
+        const closeForm = function(){
+            const form = document.querySelector('form');
+            form.remove();
+            const backdrop = document.querySelector('.backdrop');
+            backdrop.remove();
+        }
 
         $newDataForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -416,7 +420,7 @@ class DataTable {
             this.$tfooter.remove();
             this.#createTfooter();
             this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.data);
-                
+            
             } else {
                 let newData = {
                     id: lastId + 1,
@@ -432,7 +436,7 @@ class DataTable {
                 this.#pagination(this.pagesCount, this.data);
                 console.log(this.data);
             }
-
+            closeForm();
 
         })
     }
