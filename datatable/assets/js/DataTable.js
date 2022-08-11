@@ -307,11 +307,33 @@ class DataTable {
             this.$tbody.innerHTML = '';
 
             this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
-            let pageNumber = 1;
             this.$tfooter.remove();
             this.#createTfooter();
-            this.#pagination(pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
-        });
+            this.#pagination(!this.pagesCount ? 1 : this.pagesCount, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+
+            const $currentActive = document.querySelectorAll('button');
+            for (let i = 0; i < $currentActive.length; i++) {
+
+                console.log(this.pageNumber, $currentActive[i].innerHTML);
+                if ($currentActive[i].innerHTML == this.pageNumber) {
+                    const $prevActive = document.querySelector('.activePage');
+                    console.log($prevActive);
+                    if ($prevActive) {
+                        $prevActive.classList.remove('activePage');
+                    }
+                    console.log($currentActive[i]);
+                    $currentActive[i].classList.add('activePage');
+                    break;
+                } else {
+                    
+
+                    $currentActive[this.pagesCount].classList.add('activePage');
+                    console.log(this.pagesCount);
+                    this.pageNumber = this.pagesCount;
+                }
+
+            }
+        });    
     }
 
     #createSearch() {
