@@ -83,6 +83,7 @@ class DataTable {
             }
 
         }
+        this.pageNumber = 1;
     }
 
     #createThead() {
@@ -425,7 +426,7 @@ class DataTable {
                         dt.age = $newAge.value;
                     }
                 })
-              
+            
             this.$tbody.innerHTML = '';
             this.$tfooter.remove();
             this.#createTfooter();
