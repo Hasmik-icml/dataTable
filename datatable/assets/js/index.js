@@ -15,14 +15,6 @@ const columnsObject = [
         value: 'Age',
         dataIndex: 'age',
     },
-    {
-        value: 'Delete',
-        dataIndex: 'delete',
-    },
-    {
-        value: 'Edit',
-        dataIndex: 'edit',
-    },
 ];
 
 const data = [

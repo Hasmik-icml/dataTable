@@ -81,21 +81,25 @@ class DataTable {
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
 
+        const $thDelete = document.createElement('th');
+        $thDelete.innerHTML = 'Delete';
+        $thDelete.setAttribute('data-delete', 'delete');
+
+        const $thEdit = document.createElement('th');
+        $thEdit.innerHTML = 'Edit';
+        $thEdit.setAttribute('data-delete', 'edit');
+
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
             $th.classList.add(this.tableHeadClassName);
             $th.innerHTML = column.value;
 
-            if (column.dataIndex === 'edit') {
-                $th.setAttribute('data-edit', column.dataIndex);
-            } else if (column.dataIndex === 'delete') {
-                $th.setAttribute('data-delete', column.dataIndex);
-            } else {
-                $th.setAttribute('data-sort', column.dataIndex);
-                $th.setAttribute('data-sort-order', 'asc');
-            }
+            $th.setAttribute('data-sort', column.dataIndex);
+            $th.setAttribute('data-sort-order', 'asc');
 
             $tr.appendChild($th);
+            $tr.appendChild($thDelete);
+            $tr.appendChild($thEdit);
 
             $th.addEventListener('click', (e) => {
                 let sortMethod = $th.getAttribute('data-sort-order');
