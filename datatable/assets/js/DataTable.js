@@ -74,6 +74,15 @@ class DataTable {
         this.#renderData(this.dataCount, this.data);
         this.#createTfooter();
         this.#createSearch();
+
+        const $buttons = document.querySelectorAll('button');
+        for (let i = 0; i < $buttons.length; i++){
+
+            if ($buttons[i].innerHTML === '1') {
+                $buttons[i].classList.add('activePage');
+            }
+            
+        }
     }
 
     #createThead() {
