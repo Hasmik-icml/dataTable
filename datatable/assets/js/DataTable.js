@@ -174,7 +174,6 @@ class DataTable {
             const $tr = document.createElement('tr');
             $tr.classList.add(this.rowClassName);
 
-
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
                 $td.classList.add(this.cellClassName);
@@ -318,21 +317,15 @@ class DataTable {
             const $currentActive = document.querySelectorAll('button');
             for (let i = 0; i < $currentActive.length; i++) {
 
-                console.log(this.pageNumber, $currentActive[i].innerHTML);
                 if ($currentActive[i].innerHTML == this.pageNumber) {
                     const $prevActive = document.querySelector('.activePage');
-                    console.log($prevActive);
                     if ($prevActive) {
                         $prevActive.classList.remove('activePage');
                     }
-                    console.log($currentActive[i]);
                     $currentActive[i].classList.add('activePage');
                     break;
-                } else {
-                    
-
+                } else {         
                     $currentActive[this.pagesCount].classList.add('activePage');
-                    console.log(this.pagesCount);
                     this.pageNumber = this.pagesCount;
                 }
 
@@ -345,7 +338,6 @@ class DataTable {
         this.$searchInput.addEventListener('input', (e) => {
             searchText = e.target.value;
 
-            console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             if (searchText == '') {
                 this.#pagination(1, this.data);
             }
@@ -358,7 +350,6 @@ class DataTable {
             this.$tfooter.remove();
             this.$tbody.innerHTML = '';
             this.#createTfooter();
-            console.log(this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
             this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
         });
     }
@@ -453,6 +444,13 @@ class DataTable {
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
         this.forRender = forRender;
+
+        if (this.forRender.length === 0) {
+            this.pageNumber = pageNumber - 1;
+            const $currentActive = document.querySelectorAll('button');
+            $currentActive[$currentActive.length - 1].classList.add('activePage');
+        }
+
         this.#renderData(this.dataCount, this.forRender);
     }
 }
