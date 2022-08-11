@@ -81,7 +81,7 @@ class DataTable {
             if ($buttons[i].innerHTML === '1') {
                 $buttons[i].classList.add('activePage');
             }
-            
+
         }
     }
 
@@ -425,6 +425,7 @@ class DataTable {
                         dt.age = $newAge.value;
                     }
                 })
+              
             this.$tbody.innerHTML = '';
             this.$tfooter.remove();
             this.#createTfooter();
@@ -439,6 +440,7 @@ class DataTable {
                 this.data.push(newData);
                 this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
     
+                this.pageNumber = this.pagesCount;//for fixing active page
                 this.$tbody.innerHTML = '';
                 this.$tfooter.remove();
                 this.#createTfooter();
