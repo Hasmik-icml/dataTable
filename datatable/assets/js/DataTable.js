@@ -91,6 +91,11 @@ class DataTable {
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
 
+        const $check = document.createElement('input');
+        $check.setAttribute('type', 'checkbox');
+        $tr.appendChild($check);
+        
+
         const $thDelete = document.createElement('th');
         $thDelete.innerHTML = 'Delete';
         $thDelete.setAttribute('data-delete', 'delete');
@@ -184,6 +189,10 @@ class DataTable {
             const $tr = document.createElement('tr');
             $tr.classList.add(this.rowClassName);
 
+            const $tdCheckBox = document.createElement('input');
+            $tdCheckBox.setAttribute('type', 'checkbox');
+            $tr.appendChild($tdCheckBox);
+
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
                 $td.classList.add(this.cellClassName);
@@ -206,7 +215,9 @@ class DataTable {
                 this.$tdEdit.classList.add(this.editClassName);
                 this.$tdEdit.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdEdit);
+
             }
+
 
             this.$tdDelete.addEventListener('click', (e) => {
                 let del = e.target.dataset.id;
