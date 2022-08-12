@@ -114,3 +114,7 @@ form{
 .edit-data{
     cursor: pointer;
 }
+
+.selected-data{
+    margin-left: 15px;
+}

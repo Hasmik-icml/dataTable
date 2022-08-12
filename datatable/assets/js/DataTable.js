@@ -35,8 +35,8 @@ class DataTable {
         this.pagesCount = pagesCount;
         console.log('pagesCount', pagesCount);
 
-        let baseData = null;
-        this.baseData = baseData;
+        this.baseData = null;
+        this.selectedData = [];
 
         const $headerDiv = document.createElement('div');
         $headerDiv.classList.add(this.headerDiv);
@@ -71,7 +71,7 @@ class DataTable {
         this.#createThead();
         this.#createTbody();
         this.#createSelect();
-        this.#renderData(this.dataCount, this.data);
+        this.#pagination(1, this.data);
         this.#createTfooter();
         this.#createSearch();
 
@@ -91,16 +91,45 @@ class DataTable {
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
 
-        const $check = document.createElement('input');
-        $check.setAttribute('type', 'checkbox');
-        $tr.appendChild($check);
+        const $checkB = document.createElement('input');
+        this.$checkB = $checkB;
+        $checkB.setAttribute('type', 'checkbox');
+        $tr.appendChild($checkB);
 
-        $check.addEventListener('change', (e) => {
-            console.log(this.pageNumber);
-            console.log(this.pagesCount);
-            console.log(this.data);
-            console.log(this.baseData);
-            console.log(this.forRender);
+        $checkB.addEventListener('change', (e) => {
+            const $allCheckbox = document.querySelectorAll('input[type=checkbox]');
+            this.$allCheckbox = $allCheckbox;
+    
+            $allCheckbox.forEach(ch => {
+
+                    if ($checkB.checked) {
+                        if (ch.dataset.id) {
+                            console.log(ch.dataset.id);
+                            ch.checked = true;
+
+                            if (!this.selectedData.includes(ch.dataset.id)) {
+                                this.selectedData.push(ch.dataset.id);
+                            }
+
+                        }
+                    } else {
+                        ch.checked = false;
+                        this.selectedData = this.selectedData.filter(dt => {
+                            return dt !== ch.dataset.id;
+                        });
+                        this.$selectedDataButton && this.$selectedDataButton.remove();
+                        this.#selectedDatas();
+                    }  
+                    
+                });
+
+                if (this.selectedData.length) {
+                    this.$selectedDataButton && this.$selectedDataButton.remove();
+                    this.#selectedDatas();
+                }
+
+            console.log(this.selectedData);
+
         })
     
 
@@ -205,6 +234,20 @@ class DataTable {
                 
                 $tdCheckBox.addEventListener('change', (e) => {
                     console.log(e.target.dataset.id);
+
+                    if ($tdCheckBox.checked) {
+                        if (!this.selectedData.includes(e.target.dataset.id)) {
+                            this.selectedData.push(e.target.dataset.id);
+                        }
+                    } else {
+                        this.selectedData = this.selectedData.filter(dt => {
+                            return dt !== e.target.dataset.id;
+                        });
+                    }
+
+                    this.$selectedDataButton && this.$selectedDataButton.remove();
+                    this.#selectedDatas();
+                    console.log(this.selectedData);
                 })
             }
 
@@ -262,7 +305,6 @@ class DataTable {
              for (let i = 0; i < $currentActive.length; i++) {
 
                  if ($currentActive[i].innerHTML == this.pageNumber) {
-                     console.log($currentActive[i]);
                      $currentActive[i].classList.add('activePage');
                      break;
                  }
@@ -317,6 +359,7 @@ class DataTable {
 
                 this.$tbody.innerHTML = '';
                 this.#pagination(this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+
             });
 
             $td.appendChild($btn);
@@ -479,21 +522,59 @@ class DataTable {
         })
     }
 
+    #selectedDatas() {
+        const $selectedDataButton = document.createElement('button');
+        this.$selectedDataButton = $selectedDataButton;
+        $selectedDataButton.classList.add('selected-data');
+        $selectedDataButton.innerHTML = `${this.selectedData.length} data are selected`;
+        this.$dataTableContainer.appendChild($selectedDataButton);
+
+        $selectedDataButton.addEventListener('click', () => {
+            this.data = this.data.filter(dt => {
+                dt.id = dt.id + "";
+                return !this.selectedData.includes(dt.id);
+            })
+            this.selectedData.length = 0;
+
+            this.pagesCount = Math.ceil(this.baseData == null || this.baseData.length == 0 ? this.data.length / this.dataCount : this.baseData.length / this.dataCount);
+               
+            this.$tbody.innerHTML = '';
+            this.$tfooter.remove();
+            this.#createTfooter();
+            this.#pagination(!this.pageNumber ? 1 : this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
+
+            this.$selectedDataButton && this.$selectedDataButton.remove();
+            this.#selectedDatas();
+        })
+    }
+
     #pagination(pageNumber, currentData) {
-        console.log('pageNumber', pageNumber);
-        console.log('currentData', currentData);
+
+        this.$checkB.checked = false;
+        console.log(this.selectedData);
+
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
         this.forRender = forRender;
 
+       
+        
         if (this.forRender.length === 0) {
             this.pageNumber = pageNumber - 1;
             const $currentActive = document.querySelectorAll('button');
             $currentActive[$currentActive.length - 1].classList.add('activePage');
         }
-
+        
         this.#renderData(this.dataCount, this.forRender);
+        const $allChbox = document.querySelectorAll('input[type=checkbox]');
+        console.log($allChbox);
+        $allChbox.forEach(ch => {
+            console.log(ch);
+            if (this.selectedData.includes(ch.dataset.id)) {
+                ch.checked = true;
+            }
+        });
     }
 }
 
