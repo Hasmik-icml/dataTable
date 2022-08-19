@@ -1,23 +1,25 @@
 import DataTable from './DataTable.js';
 
-// const columns = ['id', 'name', 'age'];
-
 const columnsObject = [
     {
         value: 'ID',
         dataIndex: 'id',
+        type: 'number',
     },
     {
         value: 'Name',
         dataIndex: 'name',
+        type: 'string',
     },
     {
         value: 'Age',
         dataIndex: 'age',
+        type: 'number'
     },
     {
-        value: 'Developer',
-        dataIndex: 'developer',
+        value: 'Position',
+        dataIndex: 'position',
+        type: 'string',
     },
 
 ];
@@ -167,6 +169,7 @@ const data = [
         id: 27,
         name: 'Jor',
         age: 16,
+        position: 'Developer',
     }, {
         id: 28,
         name: 'Anahit',

@@ -3,29 +3,29 @@ class DataTable {
         columns = [],
         data = [], {
             dataCount = 5,
-            rowClassName = 'table-row',
-            cellClassName = 'table-cell',
-            tableClassName = 'main-table',
-            tableHeadClassName = 'table-head-data',
-            deleteClassName = 'delete',
-            inputClassName = 'search-input',
-            buttonClassName = 'button-add',
-            headerDiv = 'header-div',
-            editClassName = 'edit-data',
+            rowClassName = ' ',
+            cellClassName = ' ',
+            tableClassName = ' ',
+            tableHeadClassName = ' ',
+            deleteClassName  = ' ',
+            inputClassName  = ' ',
+            buttonClassName  = ' ',
+            headerDiv  = ' ',
+            editClassName  = ' ',
         }
     ) {
         this.columns = columns;
         this.data = data;
         this.dataCount = dataCount;
-        this.rowClassName = rowClassName;
-        this.cellClassName = cellClassName;
-        this.tableClassName = tableClassName;
-        this.inputClassName = inputClassName;
-        this.deleteClassName = deleteClassName;
-        this.tableHeadClassName = tableHeadClassName;
-        this.buttonClassName = buttonClassName;
-        this.headerDiv = headerDiv;
-        this.editClassName = editClassName;
+        this.rowClassName = `table-row ${rowClassName}`;
+        this.cellClassName = `table-cell ${cellClassName}`;
+        this.tableClassName = `main-table ${tableClassName}`;
+        this.inputClassName = `search-input ${inputClassName}`;
+        this.deleteClassName = `delete ${deleteClassName}`;
+        this.tableHeadClassName = `table-head-data ${tableHeadClassName}`;
+        this.buttonClassName = `button-add ${buttonClassName}`;
+        this.headerDiv = `header-div ${headerDiv}`;
+        this.editClassName = `edit-data ${editClassName}`;
     }
 
     createTable($dataTableContainer) {
@@ -39,7 +39,8 @@ class DataTable {
         this.selectedData = [];
 
         const $headerDiv = document.createElement('div');
-        $headerDiv.classList.add(this.headerDiv);
+        // $headerDiv.classList.add(this.headerDiv);
+        $headerDiv.setAttribute('class', this.headerDiv)
         this.$dataTableContainer.appendChild($headerDiv);
 
         const $label = document.createElement('label');
@@ -48,11 +49,14 @@ class DataTable {
 
         const $searchInput = document.createElement('input');
         this.$searchInput = $searchInput;
-        $searchInput.classList.add(this.inputClassName);
+        
+        // $searchInput.classList.add(this.inputClassName);
+        $searchInput.setAttribute('class',this.inputClassName);
         $label.appendChild($searchInput);
 
         const $addNewData = document.createElement('button');
-        $addNewData.classList.add(this.buttonClassName);
+        // $addNewData.classList.add(this.buttonClassName);
+        $addNewData.setAttribute('class', this.buttonClassName);
         $addNewData.innerHTML = 'Add new data';
         $addNewData.addEventListener('click', () => {
             if (document.querySelector('form')) {
@@ -63,7 +67,8 @@ class DataTable {
         $headerDiv.appendChild($addNewData);
 
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
+        // $table.classList.add(this.tableClassName);
+        $table.setAttribute('class', this.tableClassName);
         this.$table = $table;
 
         $dataTableContainer.appendChild($table);
@@ -89,7 +94,8 @@ class DataTable {
     #createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-        $tr.classList.add(this.rowClassName);
+        // $tr.classList.add(this.rowClassName);
+        $tr.setAttribute('class', this.rowClassName);
 
         const $checkB = document.createElement('input');
         this.$checkB = $checkB;
@@ -143,7 +149,8 @@ class DataTable {
 
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
-            $th.classList.add(this.tableHeadClassName);
+            // $th.classList.add(this.tableHeadClassName);
+            $th.setAttribute('class', this.tableHeadClassName);
             $th.innerHTML = column.value;
 
             $th.setAttribute('data-sort', column.dataIndex);
@@ -156,19 +163,20 @@ class DataTable {
             $th.addEventListener('click', (e) => {
                 let sortMethod = $th.getAttribute('data-sort-order');
                 let columnName = $th.getAttribute('data-sort');
-
+                console.log(columnName);
                 let tempData = this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData;
 
                 if (sortMethod === 'asc') {
                     $th.setAttribute('data-sort-order', 'des');
                     $th.innerHTML = column.value;
 
-                    if (columnName === 'id') {
-                        tempData.sort((dataA, dataB) => dataA.id - dataB.id);
-                    } else if (columnName === 'name') {
+                    // if (columnName === 'id') {
+                    //     tempData.sort((dataA, dataB) => dataA.id - dataB.id);
+                    // } else if (columnName === 'name') {
                         tempData.sort((dataA, dataB) => {
-                            let a = dataA.name.toLowerCase();
-                            let b = dataB.name.toLowerCase();
+
+                            let a = dataA[columnName].toString().toLowerCase();
+                            let b = dataB[columnName].toString().toLowerCase();
 
                             if (a < b) return -1;
 
@@ -176,22 +184,22 @@ class DataTable {
 
                             return 0;
                         })
+                        tempData.sort((dataA, dataB) => dataA[columnName] - dataB[columnName]);
 
-                    } else if (columnName === 'age') {
-                        tempData.sort((dataA, dataB) => dataA.age - dataB.age);
-                    }
+                    // } else if (columnName === 'age') {
+                    //     tempData.sort((dataA, dataB) => dataA.age - dataB.age);
+                    // }
 
                 } else if (sortMethod === 'des') {
                     $th.setAttribute('data-sort-order', 'asc');
                     $th.innerHTML = column.value;
 
-                    if (columnName === 'id') {
-                        tempData.sort((dataA, dataB) => dataB.id - dataA.id);
-                    } else if (columnName === 'name') {
-
+                    // if (columnName === 'id') {
+                    //     tempData.sort((dataA, dataB) => dataB.id - dataA.id);
+                    // } else if (columnName === 'name') {
                         tempData.sort((dataA, dataB) => {
-                            let a = dataA.name.toLowerCase();
-                            let b = dataB.name.toLowerCase();
+                            let a = dataA[columnName].toString().toLowerCase();
+                            let b = dataB[columnName].toString().toLowerCase();
 
                             if (b < a) return -1;
 
@@ -199,10 +207,11 @@ class DataTable {
 
                             return 0;
                         })
+                        tempData.sort((dataA, dataB) => dataB[columnName] - dataA[columnName]);
 
-                    } else if (columnName === 'age') {
-                        tempData.sort((dataA, dataB) => dataB.age - dataA.age);
-                    }
+                    // } else if (columnName === 'age') {
+                    //     tempData.sort((dataA, dataB) => dataB.age - dataA.age);
+                    // }
                 }
 
                 this.$tbody.innerHTML = '';
@@ -224,7 +233,8 @@ class DataTable {
         console.log(dataCount, this.data);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
-            $tr.classList.add(this.rowClassName);
+            // $tr.classList.add(this.rowClassName);
+            $tr.setAttribute('class', this.rowClassName);
 
             if (!(i >= rData.length)) {
                 const $tdCheckBox = document.createElement('input');
@@ -253,7 +263,8 @@ class DataTable {
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
-                $td.classList.add(this.cellClassName);
+                // $td.classList.add(this.cellClassName);
+                $td.setAttribute('class', this.cellClassName);
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
 
@@ -263,14 +274,16 @@ class DataTable {
                 const $tdDelete = document.createElement('td');
                 this.$tdDelete = $tdDelete;
                 this.$tdDelete.innerHTML = 'X';
-                this.$tdDelete.classList.add(this.deleteClassName);
+                // this.$tdDelete.classList.add(this.deleteClassName);
+                this.$tdDelete.setAttribute('class', this.deleteClassName);
                 this.$tdDelete.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdDelete);
 
                 const $tdEdit = document.createElement('td');
                 this.$tdEdit = $tdEdit;
                 this.$tdEdit.innerHTML = '✎';
-                this.$tdEdit.classList.add(this.editClassName);
+                // this.$tdEdit.classList.add(this.editClassName);
+                this.$tdEdit.setAttribute('class', this.editClassName);
                 this.$tdEdit.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdEdit);
 
@@ -340,8 +353,9 @@ class DataTable {
         this.$tfooter = $tfooter;
         const $td = document.createElement('td');
 
+        let columnCount = this.$dataTableContainer.querySelectorAll('th');
         const attr = document.createAttribute("colspan");
-        attr.value = "5";
+        attr.value = columnCount.length + 1; //1 for checkbox th
         $td.setAttributeNode(attr);
 
         for (let btnCount = 1; btnCount <= this.pagesCount; btnCount++) {
@@ -531,7 +545,7 @@ class DataTable {
 
         $selectedDataButton.addEventListener('click', () => {
             this.data = this.data.filter(dt => {
-                dt.id = dt.id + "";
+                dt.id = dt.id + "";//tostring
                 return !this.selectedData.includes(dt.id);
             })
             this.selectedData.length = 0;
@@ -551,15 +565,12 @@ class DataTable {
     #pagination(pageNumber, currentData) {
 
         this.$checkB.checked = false;
-        console.log(this.selectedData);
 
         let start = (pageNumber - 1) * this.dataCount;
         let end = start + this.dataCount;
         let forRender = currentData.slice(start, end);
         this.forRender = forRender;
-
-       
-        
+   
         if (this.forRender.length === 0) {
             this.pageNumber = pageNumber - 1;
             const $currentActive = document.querySelectorAll('button');
