@@ -57,6 +57,11 @@ label {
     cursor: pointer;
 }
 
+.delete__btn {
+    cursor: pointer;
+    color: brown;
+}
+
 .activePage{
     background-color:rgb(8, 76, 133);
 }

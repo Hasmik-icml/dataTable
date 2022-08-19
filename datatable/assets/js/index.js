@@ -200,7 +200,7 @@ const data = [
 
 const options = {
     dataCount: 5,
- 
+    deleteClassName: 'delete__btn', 
 };
 
 const $dataTableContainer = document.querySelector('.data-table-container');

@@ -3,15 +3,15 @@ class DataTable {
         columns = [],
         data = [], {
             dataCount = 5,
-            rowClassName = ' ',
-            cellClassName = ' ',
-            tableClassName = ' ',
-            tableHeadClassName = ' ',
-            deleteClassName  = ' ',
-            inputClassName  = ' ',
-            buttonClassName  = ' ',
-            headerDiv  = ' ',
-            editClassName  = ' ',
+            rowClassName = '',
+            cellClassName = '',
+            tableClassName = '',
+            tableHeadClassName = '',
+            deleteClassName  = '',
+            inputClassName  = '',
+            buttonClassName  = '',
+            headerDiv  = '',
+            editClassName  = '',
         }
     ) {
         this.columns = columns;
