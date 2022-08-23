@@ -39,7 +39,6 @@ class DataTable {
         this.selectedData = [];
 
         const $headerDiv = document.createElement('div');
-        // $headerDiv.classList.add(this.headerDiv);
         $headerDiv.setAttribute('class', this.headerDiv)
         this.$dataTableContainer.appendChild($headerDiv);
 
@@ -50,12 +49,10 @@ class DataTable {
         const $searchInput = document.createElement('input');
         this.$searchInput = $searchInput;
         
-        // $searchInput.classList.add(this.inputClassName);
         $searchInput.setAttribute('class',this.inputClassName);
         $label.appendChild($searchInput);
 
         const $addNewData = document.createElement('button');
-        // $addNewData.classList.add(this.buttonClassName);
         $addNewData.setAttribute('class', this.buttonClassName);
         $addNewData.innerHTML = 'Add new data';
         $addNewData.addEventListener('click', () => {
@@ -67,7 +64,6 @@ class DataTable {
         $headerDiv.appendChild($addNewData);
 
         const $table = document.createElement('table');
-        // $table.classList.add(this.tableClassName);
         $table.setAttribute('class', this.tableClassName);
         this.$table = $table;
 
@@ -94,7 +90,6 @@ class DataTable {
     #createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-        // $tr.classList.add(this.rowClassName);
         $tr.setAttribute('class', this.rowClassName);
 
         const $checkB = document.createElement('input');
@@ -109,6 +104,7 @@ class DataTable {
             $allCheckbox.forEach(ch => {
 
                     if ($checkB.checked) {
+
                         if (ch.dataset.id) {
                             console.log(ch.dataset.id);
                             ch.checked = true;
@@ -134,8 +130,6 @@ class DataTable {
                     this.#selectedDatas();
                 }
 
-            console.log(this.selectedData);
-
         })
     
 
@@ -149,7 +143,6 @@ class DataTable {
 
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
-            // $th.classList.add(this.tableHeadClassName);
             $th.setAttribute('class', this.tableHeadClassName);
             $th.innerHTML = column.value;
 
@@ -233,7 +226,6 @@ class DataTable {
         console.log(dataCount, this.data);
         for (let i = 0; i < dataCount; i++) {
             const $tr = document.createElement('tr');
-            // $tr.classList.add(this.rowClassName);
             $tr.setAttribute('class', this.rowClassName);
 
             if (!(i >= rData.length)) {
@@ -263,7 +255,6 @@ class DataTable {
 
             for (const key in rData[i]) {
                 const $td = document.createElement('td');
-                // $td.classList.add(this.cellClassName);
                 $td.setAttribute('class', this.cellClassName);
                 $td.innerHTML = rData[i][key];
                 $tr.appendChild($td);
@@ -274,7 +265,6 @@ class DataTable {
                 const $tdDelete = document.createElement('td');
                 this.$tdDelete = $tdDelete;
                 this.$tdDelete.innerHTML = 'X';
-                // this.$tdDelete.classList.add(this.deleteClassName);
                 this.$tdDelete.setAttribute('class', this.deleteClassName);
                 this.$tdDelete.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdDelete);
@@ -282,7 +272,6 @@ class DataTable {
                 const $tdEdit = document.createElement('td');
                 this.$tdEdit = $tdEdit;
                 this.$tdEdit.innerHTML = '✎';
-                // this.$tdEdit.classList.add(this.editClassName);
                 this.$tdEdit.setAttribute('class', this.editClassName);
                 this.$tdEdit.setAttribute('data-id', rData[i].id);
                 $tr.appendChild(this.$tdEdit);
@@ -326,7 +315,6 @@ class DataTable {
 
             this.$tdEdit.addEventListener('click', (e) => {
                 let editDataId = e.target.dataset.id;
-                console.log(editDataId);
                 let editName = '';
                 let editAge = '';
                 this.data.forEach((dt) => {
@@ -336,13 +324,13 @@ class DataTable {
                         editAge = dt.age;
                     }
                 })
-                console.log(editName, editAge);
+
                 if (document.querySelector('form')) {
                     return;
                 }
+
                 this.#addNewData(editName, editAge, editDataId);
             })
-
             this.$tbody.appendChild($tr);
         }
     }
@@ -363,6 +351,7 @@ class DataTable {
 
             $btn.addEventListener('click', () => {
                 const $prevActive = document.querySelector('.activePage');
+
                 if ($prevActive) {
                     $prevActive.classList.remove('activePage');
                 }
@@ -373,14 +362,12 @@ class DataTable {
 
                 this.$tbody.innerHTML = '';
                 this.#pagination(this.pageNumber, this.baseData == null || this.baseData.length == 0 ? this.data : this.baseData);
-
             });
 
             $td.appendChild($btn);
             $btn.innerHTML = btnCount;
             $tfooter.appendChild($td);
         }
-
         this.$table.appendChild($tfooter);
     }
 
@@ -502,7 +489,6 @@ class DataTable {
             }
 
             if (id) {
-                console.log(id);
                 this.data.forEach((dt) => {
                     if (dt.id == id) {
                         dt.name = $newName.value;
@@ -532,7 +518,6 @@ class DataTable {
                 console.log(this.data);
             }
             closeForm();
-
         })
     }
 
@@ -545,7 +530,7 @@ class DataTable {
 
         $selectedDataButton.addEventListener('click', () => {
             this.data = this.data.filter(dt => {
-                dt.id = dt.id + "";//tostring
+                dt.id = (dt.id).toString();
                 return !this.selectedData.includes(dt.id);
             })
             this.selectedData.length = 0;
@@ -563,7 +548,6 @@ class DataTable {
     }
 
     #pagination(pageNumber, currentData) {
-
         this.$checkB.checked = false;
 
         let start = (pageNumber - 1) * this.dataCount;
@@ -579,7 +563,7 @@ class DataTable {
         
         this.#renderData(this.dataCount, this.forRender);
         const $allChbox = document.querySelectorAll('input[type=checkbox]');
-        console.log($allChbox);
+
         $allChbox.forEach(ch => {
             console.log(ch);
             if (this.selectedData.includes(ch.dataset.id)) {
